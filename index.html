@@ -3,712 +3,178 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MvA Intelligence</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+<title>MVA Documentbibliotheek</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy: #1A2B5F;
-    --navy-dark: #111e45;
-    --navy-light: #25346c;
-    --orange: #E8500A;
-    --orange-light: #ff6600;
-    --white: #ffffff;
-    --grey-light: #f4f5f8;
-    --grey-mid: #e8eaf0;
-    --grey-text: #6b7280;
-    --text: #1a1a2e;
-    --success: #10b981;
-    --amber: #f59e0b;
-    --purple: #7c3aed;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Roboto', sans-serif;
-    background: var(--navy-dark);
-    min-height: 100vh;
-    color: var(--white);
-  }
-
-  /* ── LOGIN SCREEN ── */
-  #login-screen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--navy-dark);
-    position: relative;
-    overflow: hidden;
-  }
-
-  #login-screen::before {
-    content: '';
-    position: absolute;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(232,80,10,0.12) 0%, transparent 70%);
-    top: -100px; right: -100px;
-    border-radius: 50%;
-  }
-  #login-screen::after {
-    content: '';
-    position: absolute;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(37,52,108,0.6) 0%, transparent 70%);
-    bottom: -80px; left: -80px;
-    border-radius: 50%;
-  }
-
-  .login-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.10);
-    border-radius: 20px;
-    padding: 56px 48px;
-    width: 420px;
-    position: relative;
-    z-index: 1;
-    backdrop-filter: blur(20px);
-    animation: fadeUp 0.5s ease both;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .login-logo {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 40px;
-  }
-
-  .logo-gamma {
-    width: 48px; height: 48px;
-    background: var(--orange);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Roboto Condensed', sans-serif;
-    font-size: 28px; font-weight: 700;
-    color: white;
-    flex-shrink: 0;
-  }
-
-  .logo-text { line-height: 1.1; }
-  .logo-text .brand { font-size: 18px; font-weight: 700; letter-spacing: 0.02em; }
-  .logo-text .sub   { font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; text-transform: uppercase; }
-
-  .login-title {
-    font-size: 24px; font-weight: 700;
-    margin-bottom: 6px;
-    letter-spacing: -0.02em;
-  }
-  .login-sub {
-    font-size: 14px; color: rgba(255,255,255,0.45);
-    margin-bottom: 36px;
-  }
-
-  .form-group { margin-bottom: 20px; }
-  .form-group label {
-    display: block;
-    font-size: 12px; font-weight: 500;
-    letter-spacing: 0.06em; text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 8px;
-  }
-  .form-group input {
-    width: 100%;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 10px;
-    padding: 14px 16px;
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px;
-    outline: none;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .form-group input:focus {
-    border-color: var(--orange);
-    background: rgba(255,255,255,0.09);
-  }
-  .form-group input::placeholder { color: rgba(255,255,255,0.25); }
-
-  .login-btn {
-    width: 100%;
-    background: var(--orange);
-    border: none;
-    border-radius: 10px;
-    padding: 15px;
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px; font-weight: 700;
-    letter-spacing: 0.03em;
-    cursor: pointer;
-    margin-top: 8px;
-    transition: background 0.2s, transform 0.1s;
-  }
-  .login-btn:hover { background: var(--orange-light); }
-  .login-btn:active { transform: scale(0.99); }
-
-  .login-hint {
-    margin-top: 24px;
-    padding: 14px 16px;
-    background: rgba(255,255,255,0.04);
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.07);
-  }
-  .login-hint p { font-size: 12px; color: rgba(255,255,255,0.35); margin-bottom: 6px; }
-  .login-hint .hint-row {
-    display: flex; gap: 8px; flex-wrap: wrap;
-  }
-  .hint-tag {
-    font-size: 11px;
-    background: rgba(255,255,255,0.07);
-    border-radius: 6px;
-    padding: 4px 10px;
-    color: rgba(255,255,255,0.5);
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .hint-tag:hover { background: rgba(255,255,255,0.14); color: white; }
-
-  .login-error {
-    background: rgba(232,80,10,0.15);
-    border: 1px solid rgba(232,80,10,0.3);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 13px;
-    color: #fca97a;
-    margin-top: 14px;
-    display: none;
-  }
-
-  /* ── DASHBOARD ── */
-  #dashboard { display: none; min-height: 100vh; background: var(--grey-light); }
-
-  .topbar {
-    background: var(--navy);
-    padding: 0 32px;
-    height: 64px;
-    display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 100;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-  .topbar-left { display: flex; align-items: center; gap: 16px; }
-  .topbar-logo { display: flex; align-items: center; gap: 10px; }
-  .topbar-gamma {
-    width: 34px; height: 34px;
-    background: var(--orange);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Roboto Condensed', sans-serif;
-    font-size: 18px; font-weight: 700;
-  }
-  .topbar-name { font-size: 16px; font-weight: 700; color: white; }
-  .topbar-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.15); }
-
-  .role-badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 11px; font-weight: 700;
-    letter-spacing: 0.06em; text-transform: uppercase;
-  }
-  .role-directie  { background: rgba(232,80,10,0.2); color: #fca97a; border: 1px solid rgba(232,80,10,0.3); }
-  .role-makelaar  { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.25); }
-  .role-compliance{ background: rgba(245,158,11,0.15); color: #fcd34d; border: 1px solid rgba(245,158,11,0.25); }
-  .role-kandidaat { background: rgba(124,58,237,0.15); color: #c4b5fd; border: 1px solid rgba(124,58,237,0.25); }
-  .role-trainee   { background: rgba(232,80,10,0.15); color: #fca97a; border: 1px solid rgba(232,80,10,0.25); }
-
-  .topbar-right { display: flex; align-items: center; gap: 16px; }
-  .user-pill {
-    display: flex; align-items: center; gap: 10px;
-    padding: 6px 14px 6px 6px;
-    background: rgba(255,255,255,0.07);
-    border-radius: 24px;
-  }
-  .user-avatar {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    background: var(--orange);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700;
-  }
-  .user-name { font-size: 13px; font-weight: 500; }
-  .logout-btn {
-    background: none; border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 8px; padding: 6px 14px;
-    color: rgba(255,255,255,0.6); font-family: 'Roboto', sans-serif;
-    font-size: 13px; cursor: pointer;
-    transition: all 0.2s;
-  }
-  .logout-btn:hover { border-color: rgba(255,255,255,0.35); color: white; }
-
-  .dashboard-body {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 40px 32px 60px;
-  }
-
-  .welcome-block {
-    margin-bottom: 40px;
-    animation: fadeUp 0.4s ease both;
-  }
-  .welcome-greeting {
-    font-size: 28px; font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.02em;
-    margin-bottom: 4px;
-  }
-  .welcome-greeting span { color: var(--orange); }
-  .welcome-sub { font-size: 15px; color: var(--grey-text); }
-
-  .section-label {
-    font-size: 11px; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--grey-text);
-    margin-bottom: 16px;
-    margin-top: 36px;
-  }
-
-  .modules-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-  }
-
-  .module-card {
-    background: white;
-    border-radius: 16px;
-    padding: 24px;
-    border: 1px solid var(--grey-mid);
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-    animation: fadeUp 0.4s ease both;
-    position: relative;
-    overflow: hidden;
-  }
-  .module-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--card-accent, var(--navy));
-    border-radius: 16px 16px 0 0;
-  }
-  .module-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(26,43,95,0.12);
-    border-color: transparent;
-  }
-
-  .card-icon {
-    width: 44px; height: 44px;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    margin-bottom: 16px;
-  }
-  .card-title {
-    font-size: 16px; font-weight: 700;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
-  .card-desc {
-    font-size: 13px;
-    color: var(--grey-text);
-    line-height: 1.5;
-  }
-  .card-footer {
-    margin-top: 18px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .card-status {
-    font-size: 11px; font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.04em;
-  }
-  .status-live    { background: #d1fae5; color: #065f46; }
-  .status-build   { background: #fef3c7; color: #92400e; }
-  .status-concept { background: #ede9fe; color: #4c1d95; }
-
-  .card-arrow {
-    font-size: 18px;
-    color: var(--grey-text);
-    transition: transform 0.2s, color 0.2s;
-  }
-  .module-card:hover .card-arrow { transform: translateX(4px); color: var(--orange); }
-
-  /* staggered animation delays */
-  .module-card:nth-child(1) { animation-delay: 0.05s; }
-  .module-card:nth-child(2) { animation-delay: 0.10s; }
-  .module-card:nth-child(3) { animation-delay: 0.15s; }
-  .module-card:nth-child(4) { animation-delay: 0.20s; }
-  .module-card:nth-child(5) { animation-delay: 0.25s; }
-  .module-card:nth-child(6) { animation-delay: 0.30s; }
-
-  /* directie-only block */
-  .directie-section {
-    margin-top: 0;
-    padding: 28px;
-    background: linear-gradient(135deg, var(--navy), var(--navy-light));
-    border-radius: 16px;
-    animation: fadeUp 0.4s 0.3s ease both;
-  }
-  .directie-section .section-label { color: rgba(255,255,255,0.45); margin-top: 0; }
-  .directie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
-  .directie-item {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.10);
-    border-radius: 12px;
-    padding: 16px;
-    cursor: pointer;
-    transition: background 0.2s;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .directie-item:hover { background: rgba(255,255,255,0.13); }
-  .directie-item-icon { font-size: 20px; }
-  .directie-item-text { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85); }
-
-  /* kandidaat single card */
-  .kandidaat-hero {
-    background: linear-gradient(135deg, var(--navy), var(--navy-light));
-    border-radius: 20px;
-    padding: 48px 40px;
-    text-align: center;
-    animation: fadeUp 0.4s 0.1s ease both;
-  }
-  .kandidaat-hero .hero-icon { font-size: 48px; margin-bottom: 16px; }
-  .kandidaat-hero h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
-  .kandidaat-hero p  { font-size: 15px; color: rgba(255,255,255,0.55); margin-bottom: 28px; }
-  .kandidaat-btn {
-    display: inline-block;
-    background: var(--orange);
-    color: white;
-    padding: 14px 32px;
-    border-radius: 10px;
-    font-weight: 700; font-size: 15px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .kandidaat-btn:hover { background: var(--orange-light); }
-
-  /* ── IFRAME OVERLAY ── */
-  .iframe-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    background: white;
-    flex-direction: column;
-  }
-  .iframe-overlay.open { display: flex; }
-  .iframe-bar {
-    background: var(--navy);
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-    border-bottom: 3px solid var(--orange);
-  }
-  .iframe-bar-left { display: flex; align-items: center; gap: 12px; }
-  .iframe-bar-title { color: white; font-size: 14px; font-weight: 700; }
-  .iframe-back-btn {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: white;
-    padding: 6px 14px;
-    border-radius: 7px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .iframe-back-btn:hover { background: var(--orange); border-color: var(--orange); }
-  .iframe-frame {
-    flex: 1;
-    border: none;
-    width: 100%;
-  }
-
+:root{--navy:#1A2B5F;--orange:#E8500A;--white:#fff;--bg:#F4F5F8;--border:#D8D8D8;--mid:#555;--light:#888;--green:#2E7D32;--red:#DC2626}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Roboto',sans-serif;background:var(--bg);color:#2D2D2D;font-size:14px}
+.header{background:var(--navy);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--orange)}
+.logo-mark .logo-top{font-size:9px;font-weight:700;color:#fff;letter-spacing:.12em;text-transform:uppercase}
+.logo-mark .logo-bot{font-size:9px;color:rgba(255,255,255,.7);letter-spacing:.08em;text-transform:uppercase}
+.header-title{font-size:15px;font-weight:500;color:#fff;margin-left:12px}
+.header-right{display:flex;align-items:center;gap:12px}
+.level-badge{background:rgba(232,80,10,.2);border:1px solid var(--orange);color:var(--orange);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.08em}
+.user-name{color:rgba(255,255,255,.8);font-size:13px}
+.logout-btn{background:transparent;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.7);padding:5px 12px;border-radius:4px;cursor:pointer;font-size:12px;font-family:'Roboto',sans-serif}
+.login-screen{display:none;position:fixed;inset:0;background:var(--navy);z-index:1000;align-items:center;justify-content:center;flex-direction:column}
+.login-box{background:white;border-radius:12px;padding:40px;width:380px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.login-title{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:6px;text-align:center}
+.login-sub{color:var(--light);font-size:13px;text-align:center;margin-bottom:28px}
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:12px;font-weight:500;color:var(--navy);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.form-input{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:6px;font-size:14px;font-family:'Roboto',sans-serif;outline:none}
+.form-input:focus{border-color:var(--navy)}
+.login-btn{width:100%;padding:12px;background:var(--navy);color:white;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Roboto',sans-serif;margin-top:8px}
+.login-error{color:var(--red);font-size:12px;margin-top:8px;display:none}
+.main-wrap{display:flex;height:calc(100vh - 56px)}
+.sidebar{width:220px;background:white;border-right:1px solid var(--border);padding:20px 0;overflow-y:auto;flex-shrink:0}
+.sidebar-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);padding:0 16px 8px}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;color:var(--mid);font-size:13px;transition:all .15s;border-left:3px solid transparent}
+.sidebar-item:hover{background:var(--bg);color:var(--navy)}
+.sidebar-item.active{background:#EEF1F8;color:var(--navy);font-weight:500;border-left-color:var(--orange)}
+.content{flex:1;overflow-y:auto;padding:24px}
+.tabs{display:flex;gap:4px;margin-bottom:24px;background:white;padding:4px;border-radius:8px;border:1px solid var(--border);width:fit-content}
+.tab-btn{padding:8px 20px;border:none;background:transparent;border-radius:6px;cursor:pointer;font-size:13px;font-family:'Roboto',sans-serif;color:var(--mid)}
+.tab-btn.active{background:var(--navy);color:white;font-weight:500}
+.toolbar{display:flex;gap:12px;margin-bottom:20px;align-items:center}
+.search-wrap{position:relative;flex:1;max-width:400px}
+.search-input{width:100%;padding:9px 14px 9px 36px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-family:'Roboto',sans-serif;outline:none;background:white}
+.search-input:focus{border-color:var(--navy)}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--light)}
+.filter-select{padding:9px 14px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-family:'Roboto',sans-serif;background:white;cursor:pointer;outline:none}
+.cat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.cat-title{font-size:18px;font-weight:700;color:var(--navy)}
+.cat-count{font-size:13px;color:var(--light)}
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.doc-card{background:white;border-radius:8px;border:1px solid var(--border);padding:16px;cursor:pointer;transition:all .15s}
+.doc-card:hover{border-color:var(--navy);box-shadow:0 4px 12px rgba(26,43,95,.1);transform:translateY(-1px)}
+.doc-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.doc-icon{font-size:24px}
+.doc-status{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px}
+.status-actueel{background:#E8F5E9;color:var(--green)}
+.status-controleren{background:#FEF3C7;color:#92400E}
+.status-verlopen{background:#FEE2E2;color:var(--red)}
+.doc-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px;line-height:1.4}
+.doc-meta{font-size:11px;color:var(--light)}
+.doc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--bg)}
+.doc-date{font-size:11px;color:var(--light)}
+.doc-open-btn{font-size:11px;font-weight:600;color:var(--orange);background:none;border:none;cursor:pointer;font-family:'Roboto',sans-serif}
+.beheer-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.add-btn{background:var(--orange);color:white;border:none;padding:9px 18px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;font-family:'Roboto',sans-serif}
+.beheer-table{width:100%;border-collapse:collapse;background:white;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.beheer-table th{background:var(--navy);color:white;padding:11px 16px;text-align:left;font-size:12px;font-weight:600}
+.beheer-table td{padding:11px 16px;border-bottom:1px solid var(--bg);font-size:13px;vertical-align:middle}
+.beheer-table tr:hover td{background:#f8f9fc}
+.edit-btn{background:none;border:1px solid var(--border);padding:4px 10px;border-radius:4px;cursor:pointer;font-size:11px;font-family:'Roboto',sans-serif;color:var(--mid)}
+.alert-banner{background:#FEF3C7;border:1px solid #F59E0B;border-radius:6px;padding:10px 16px;margin-bottom:16px;font-size:13px;color:#92400E;display:none}
+.empty-state{text-align:center;padding:60px 20px;color:var(--light)}
 </style>
 </head>
 <body>
-
-<!-- ═══════════════════════════════ LOGIN ═══════════════════════════════ -->
-
-<!-- ── IFRAME OVERLAY ── -->
-<div class="iframe-overlay" id="iframe-overlay">
-  <div class="iframe-bar">
-    <div class="iframe-bar-left">
-      <button class="iframe-back-btn" onclick="sluitModule()">← Terug naar portal</button>
-      <span class="iframe-title" id="iframe-title"></span>
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:11px;font-weight:700;color:var(--navy);letter-spacing:.15em;text-transform:uppercase">MAKELAARSVAN.</div>
+      <div style="font-size:11px;color:var(--mid);letter-spacing:.1em;text-transform:uppercase">AMSTERDAM</div>
     </div>
-  </div>
-  <iframe class="iframe-frame" id="iframe-frame" src="" allowfullscreen></iframe>
-</div>
-
-<div id="login-screen">
-  <div class="login-card">
-    <div class="login-logo">
-      <div class="logo-gamma">Γ</div>
-      <div class="logo-text">
-        <div class="brand">MvA Intelligence</div>
-        <div class="sub">Makelaarsvan.Amsterdam</div>
-      </div>
-    </div>
-    <div class="login-title">Welkom terug</div>
-    <div class="login-sub">Log in om toegang te krijgen tot je modules</div>
-
-    <div class="form-group">
-      <label>E-mailadres</label>
-      <input type="email" id="email-input" placeholder="naam@makelaarsvan.nl" />
-    </div>
-    <div class="form-group">
-      <label>Wachtwoord</label>
-      <div style="position:relative">
-        <input type="password" id="password-input" placeholder="••••••••" style="padding-right:48px" />
-        <button onclick="togglePw()" id="pw-toggle" type="button" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.4);font-size:18px;line-height:1;padding:0;">👁</button>
-      </div>
-    </div>
-
-    <button class="login-btn" onclick="doLogin()">Inloggen</button>
-    <div class="login-error" id="login-error">Onbekende gebruiker of onjuist wachtwoord.</div>
+    <div class="login-title">Documentbibliotheek</div>
+    <div class="login-sub">Log in om documenten te bekijken</div>
+    <div class="form-group"><label class="form-label">E-mailadres</label><input type="email" id="loginEmail" class="form-input" placeholder="naam@makelaarsvan.nl"></div>
+    <div class="form-group"><label class="form-label">Wachtwoord</label><input type="password" id="loginPassword" class="form-input" placeholder="••••••••"></div>
+    <div id="loginError" class="login-error"></div>
+    <button class="login-btn" onclick="doLogin()">Inloggen →</button>
   </div>
 </div>
-
-<!-- ═══════════════════════════════ DASHBOARD ═══════════════════════════════ -->
-<div id="dashboard">
-  <div class="topbar">
-    <div class="topbar-left">
-      <div class="topbar-logo">
-        <div class="topbar-gamma">Γ</div>
-        <div class="topbar-name">MvA Intelligence</div>
-      </div>
-      <div class="topbar-divider"></div>
-      <span class="role-badge" id="role-badge"></span>
+<div class="header">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="logo-mark"><div class="logo-top">MAKELAARSVAN.</div><div class="logo-bot">AMSTERDAM</div></div>
+    <div style="width:1px;height:28px;background:rgba(255,255,255,.2)"></div>
+    <div class="header-title">📁 Documentbibliotheek</div>
+  </div>
+  <div class="header-right">
+    <span class="level-badge" id="levelBadge">—</span>
+    <span class="user-name" id="userName">—</span>
+    <button class="logout-btn" onclick="doLogout()">Uitloggen</button>
+  </div>
+</div>
+<div class="main-wrap">
+  <div class="sidebar">
+    <div style="padding:0 16px 8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light)">Categorieën</div>
+    <div class="sidebar-item active" onclick="selectCat('werving')" id="cat-werving"><span>👥</span> Werving &amp; Selectie</div>
+    <div class="sidebar-item" onclick="selectCat('verkoop')" id="cat-verkoop"><span>🏠</span> Verkoop</div>
+    <div class="sidebar-item" onclick="selectCat('aankoop')" id="cat-aankoop"><span>🔑</span> Aankoop</div>
+    <div class="sidebar-item" onclick="selectCat('finance')" id="cat-finance"><span>💶</span> Finance &amp; HR</div>
+    <div class="sidebar-item" onclick="selectCat('compliance')" id="cat-compliance"><span>⚖️</span> Compliance &amp; WWFT</div>
+  </div>
+  <div class="content" id="mainContent">
+    <div class="tabs" id="tabsWrap" style="display:none">
+      <button class="tab-btn active" id="tab-zoeken" onclick="switchTab('zoeken')">🔍 Documenten</button>
+      <button class="tab-btn" id="tab-beheer" onclick="switchTab('beheer')">⚙️ Bibliotheek beheer</button>
     </div>
-    <div class="topbar-right">
-      <div class="user-pill">
-        <div class="user-avatar" id="user-avatar"></div>
-        <span class="user-name" id="user-name-display"></span>
+    <div id="zoekenTab">
+      <div class="toolbar">
+        <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" class="search-input" id="searchInput" placeholder="Zoek document..." oninput="filterDocs()"></div>
+        <select class="filter-select" id="statusFilter" onchange="filterDocs()"><option value="">Alle statussen</option><option value="Actueel">Actueel</option><option value="Te controleren">Te controleren</option><option value="Verlopen">Verlopen</option></select>
       </div>
-      <button class="logout-btn" onclick="doLogout()">Uitloggen</button>
+      <div class="alert-banner" id="alertBanner"></div>
+      <div class="cat-header"><div class="cat-title" id="catTitle">Werving &amp; Selectie</div><div class="cat-count" id="catCount"></div></div>
+      <div class="doc-grid" id="docGrid"></div>
+      <div class="empty-state" id="emptyState" style="display:none"><div style="font-size:48px;margin-bottom:12px">📂</div><div>Geen documenten gevonden</div></div>
+    </div>
+    <div id="beheerTab" style="display:none">
+      <div class="beheer-header"><div class="cat-title">Bibliotheek beheer</div><button class="add-btn" onclick="alert('Binnenkort beschikbaar')">+ Document toevoegen</button></div>
+      <table class="beheer-table"><thead><tr><th>Document</th><th>Categorie</th><th>Status</th><th>Eigenaar</th><th>Datum</th><th></th></tr></thead><tbody id="beheerBody"></tbody></table>
     </div>
   </div>
-
-  <div class="dashboard-body" id="dashboard-body"></div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-// ── SUPABASE CONFIG ──
-const SUPABASE_URL = 'https://ehqtyhoeubchcwfavdzr.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_OqTL874jsDEMKg9LomfrmQ_nwIo6Wet';
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// ── MODULE DEFINITIES ──
-const MODULES = {
-  directie: {
-    primary: [
-      { icon: '🤖', accent: '#1A2B5F', bg: '#eef0f7', title: 'Q&A Kennisbank', desc: 'Stel vragen over praktijk, leveranciers, HR en finance. Directie ziet alle lagen.', status: 'live', url: 'https://q-and-a-mva.netlify.app' },
-      { icon: '📚', accent: '#E8500A', bg: '#fff1ec', title: 'MVA Leerpad', desc: 'Volledig onboarding- en trainingsprogramma voor nieuwe makelaars. Fase 1–7.', status: 'live', url: 'https://mva-leerpad.netlify.app' },
-      { icon: '🔄', accent: '#10b981', bg: '#ecfdf5', title: 'Workflows', desc: 'Aankoop- en verkoopworkflows stap voor stap. Afvinkbaar per transactie.', status: 'live', url: '#' },
-      { icon: '✅', accent: '#f59e0b', bg: '#fffbeb', title: 'Activatielijst', desc: 'Onboarding checklist voor nieuwe makelaars — dag 1, week 1, maand 1.', status: 'live', url: '#' },
-      { icon: '🧬', accent: '#7c3aed', bg: '#f5f3ff', title: 'Werving & Selectie', desc: 'ACES profielscan voor kandidaten. Rapporten en uitslagen zichtbaar voor directie.', status: 'live', url: 'https://a-c-e-s-test.netlify.app' },
-      { icon: '📁', accent: '#0ea5e9', bg: '#f0f9ff', title: 'Documentbibliotheek', desc: 'Contracten, leveranciers & wervingsdocumenten. 54 actieve partners. SharePoint-koppeling in voorbereiding.', status: 'live', url: 'https://mva-documenten.netlify.app' },
-    ],
-    restricted: [
-      { icon: '👥', title: 'HR & Personeelsdata' },
-      { icon: '💶', title: 'Finance & Jaarcijfers' },
-      { icon: '📊', title: 'Broker Rapportage' },
-      { icon: '⚖️', title: 'WWFT Overzicht' },
-    ]
-  },
-  makelaar: {
-    primary: [
-      { icon: '🤖', accent: '#1A2B5F', bg: '#eef0f7', title: 'Q&A Kennisbank', desc: 'Stel praktijkvragen over systemen, leveranciers en processen.', status: 'live', url: 'https://q-and-a-mva.netlify.app' },
-      { icon: '📚', accent: '#E8500A', bg: '#fff1ec', title: 'MVA Leerpad', desc: 'Jouw onboarding- en trainingsprogramma. Alle modules en workflows.', status: 'live', url: '#' },
-      { icon: '🔄', accent: '#10b981', bg: '#ecfdf5', title: 'Workflows', desc: 'Aankoop- en verkoopstappen. Weet altijd wat de volgende actie is.', status: 'live', url: '#' },
-      { icon: '✅', accent: '#f59e0b', bg: '#fffbeb', title: 'Activatielijst', desc: 'Zet alle accounts en systemen klaar — dag 1, week 1, maand 1.', status: 'live', url: '#' },
-      { icon: '🤝', accent: '#0ea5e9', bg: '#f0f9ff', title: 'Partners & Leveranciers', desc: '51 leveranciers met contactgegevens en instructies.', status: 'live', url: '#' },
-      { icon: '🥷', accent: '#7c3aed', bg: '#f5f3ff', title: 'Ninja Selling', desc: '42 hoofdstukken. Tons eigen vertaling. Bouw het systeem op.', status: 'live', url: '#' },
-    ]
-  },
-  trainee: {
-    primary: [
-      { icon: '📚', accent: '#E8500A', bg: '#fff1ec', title: 'Leerpad & Onboarding', desc: 'Jouw volledige onboardingprogramma. Alle modules, workflows en Ninja bibliotheek. Stel vragen via de knop rechtsonder.', status: 'live', url: 'https://mva-leerpad.netlify.app' },
-      { icon: '✅', accent: '#f59e0b', bg: '#fffbeb', title: 'Activatielijst', desc: 'Zet alle accounts en systemen klaar — dag 1, week 1, maand 1.', status: 'live', url: '#' },
-      { icon: '🤖', accent: '#1A2B5F', bg: '#eef0f7', title: 'Q&A Kennisbank', desc: 'Stel praktijkvragen over systemen, leveranciers en processen.', status: 'live', url: 'https://q-and-a-onboarding-mva.netlify.app' },
-    ]
-  },
-  compliance: {
-    primary: [
-      { icon: '⚖️', accent: '#f59e0b', bg: '#fffbeb', title: 'WWFT Tool', desc: 'Centraal beheer van WWFT-checks via Zapier en Google Sheets. Alle dossiers op één plek.', status: 'live', url: '#' },
-      { icon: '📋', accent: '#1A2B5F', bg: '#eef0f7', title: 'Openstaande Checks', desc: 'Overzicht van makelaars die een WWFT-check hebben getriggerd maar nog niet afgerond.', status: 'build', url: '#' },
-    ]
-  },
-  kandidaat: null
-};
-
-function togglePw() {
-  const input = document.getElementById('password-input');
-  input.type = input.type === 'password' ? 'text' : 'password';
-}
-
-async function doLogin() {
-  const email = document.getElementById('email-input').value.trim().toLowerCase();
-  const pw    = document.getElementById('password-input').value;
-  const err   = document.getElementById('login-error');
-  const btn   = document.querySelector('.login-btn');
-
-  btn.textContent = 'Bezig...';
-  btn.disabled = true;
-
-  // Login via Supabase Auth
-  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
-
-  if (error) {
-    err.textContent = 'Onbekende gebruiker of onjuist wachtwoord.';
-    err.style.display = 'block';
-    btn.textContent = 'Inloggen';
-    btn.disabled = false;
-    return;
-  }
-
-  // Haal gebruikersprofiel op uit gebruikers tabel
-  const { data: profiel, error: profielError } = await sb
-    .from('gebruikers')
-    .select('naam, level')
-    .eq('email', email)
-    .single();
-
-  if (profielError || !profiel) {
-    err.textContent = 'Gebruikersprofiel niet gevonden. Neem contact op met de beheerder.';
-    err.style.display = 'block';
-    btn.textContent = 'Inloggen';
-    btn.disabled = false;
-    return;
-  }
-
-  err.style.display = 'none';
-  btn.textContent = 'Inloggen';
-  btn.disabled = false;
-
-  renderDashboard({ name: profiel.naam, role: profiel.level });
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('dashboard').style.display = 'block';
-}
-
-document.getElementById('password-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
-});
-
-async function doLogout() {
-  await sb.auth.signOut();
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('email-input').value = '';
-  document.getElementById('password-input').value = '';
-}
-
-// Check of al ingelogd bij laden pagina
-window.addEventListener('load', async () => {
-  const { data: { session } } = await sb.auth.getSession();
-  if (session) {
-    const { data: profiel } = await sb
-      .from('gebruikers')
-      .select('naam, level')
-      .eq('email', session.user.email)
-      .single();
-    if (profiel) {
-      renderDashboard({ name: profiel.naam, role: profiel.level });
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
-    }
-  }
-});
-
-function renderDashboard(user) {
-  // topbar
-  const roleBadge = document.getElementById('role-badge');
-  roleBadge.textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
-  roleBadge.className = 'role-badge role-' + user.role;
-
-  const initials = user.name.split(' ').map(w => w[0]).slice(0,2).join('');
-  document.getElementById('user-avatar').textContent = initials;
-  document.getElementById('user-name-display').textContent = user.name;
-
-  const body = document.getElementById('dashboard-body');
-  const firstName = user.name.split(' ')[0];
-
-  if (user.role === 'kandidaat') {
-    body.innerHTML = `
-      <div class="welcome-block">
-        <div class="welcome-greeting">Welkom, <span>${firstName}</span> 👋</div>
-        <div class="welcome-sub">Goed dat je er bent. Hier start jouw kennismaking met MakelaarsVan Amsterdam.</div>
-      </div>
-      <div class="kandidaat-hero">
-        <div class="hero-icon">🧬</div>
-        <h2>GNOTHI Profielscan</h2>
-        <p>Voordat we beginnen willen we je beter leren kennen.<br>De scan duurt ongeveer 5 minuten.</p>
-        <div class="kandidaat-btn" onclick="window.open('https://a-c-e-s-test.netlify.app','_blank')">Start de profielscan →</div>
-      </div>
-    `;
-    return;
-  }
-
-  // Trainee ziet dezelfde layout als makelaar maar met andere modules
-  const data = MODULES[user.role] || MODULES['makelaar'];
-  let html = `
-    <div class="welcome-block">
-      <div class="welcome-greeting">Goedemiddag, <span>${firstName}</span> 👋</div>
-      <div class="welcome-sub">Jouw modules zijn beschikbaar. Klik op een kaart om te openen.</div>
-    </div>
-  `;
-
-  if (data.primary) {
-    html += `<div class="section-label">Jouw modules</div><div class="modules-grid">`;
-    data.primary.forEach(m => {
-      const statusLabel = m.status === 'live' ? 'Live' : m.status === 'build' ? 'In opbouw' : 'Concept';
-      const statusClass = m.status === 'live' ? 'status-live' : m.status === 'build' ? 'status-build' : 'status-concept';
-      html += `
-        <div class="module-card" style="--card-accent:${m.accent}" onclick="openModule('${m.title}', '${m.url}')">
-          <div class="card-icon" style="background:${m.bg}">${m.icon}</div>
-          <div class="card-title">${m.title}</div>
-          <div class="card-desc">${m.desc}</div>
-          <div class="card-footer">
-            <span class="card-status ${statusClass}">${statusLabel}</span>
-            <span class="card-arrow">→</span>
-          </div>
-        </div>
-      `;
-    });
-    html += `</div>`;
-  }
-
-  if (user.role === 'directie' && data.restricted) {
-    html += `
-      <div class="section-label" style="margin-top:36px">Directie-only toegang</div>
-      <div class="directie-section">
-        <div class="directie-grid">
-    `;
-    data.restricted.forEach(r => {
-      html += `
-        <div class="directie-item">
-          <div class="directie-item-icon">${r.icon}</div>
-          <div class="directie-item-text">${r.title}</div>
-        </div>
-      `;
-    });
-    html += `</div></div>`;
-  }
-
-  body.innerHTML = html;
-}
+const DOCS=[
+{id:1,cat:'werving',titel:'Arbeidsovereenkomst Makelaar',icon:'📄',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Standaard arbeidsovereenkomst voor nieuwe makelaars'},
+{id:2,cat:'werving',titel:'Bijlage A — Functieomschrijving',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Taakomschrijving en verantwoordelijkheden'},
+{id:3,cat:'werving',titel:'Bijlage B — Salaris & Courtage',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Beloningsstructuur per level'},
+{id:4,cat:'werving',titel:'Bijlage C — Verlof & Verzuim',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Verlofregeling en verzuimprotocol'},
+{id:5,cat:'werving',titel:'Bijlage D — Auto van de zaak',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Regels voor gebruik leaseauto'},
+{id:6,cat:'werving',titel:'Bijlage E — Opleidingen',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Opleidingsvergoedingen en -verplichtingen'},
+{id:7,cat:'werving',titel:'Bijlage F — Geheimhouding',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'NDA en geheimhoudingsverklaring'},
+{id:8,cat:'werving',titel:'Bijlage G — Concurrentiebeding',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Concurrentiebeding na dienstverband'},
+{id:9,cat:'werving',titel:'Bijlage H — Pensioen',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Pensioenregeling MVA'},
+{id:10,cat:'werving',titel:'Bijlage I — Reglement',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Huishoudelijk reglement MVA'},
+{id:11,cat:'werving',titel:'Bijlage J — AVG Verklaring',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Privacy- en gegevensbeschermingsverklaring'},
+{id:12,cat:'werving',titel:'Bijlage K — IT Beleid',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Beleid voor gebruik ICT-middelen'},
+{id:13,cat:'werving',titel:'Bijlage L — Onkostenvergoeding',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Onkostenvergoedingen en declaratiebeleid'},
+{id:14,cat:'werving',titel:'Wervingsbrief Makelaar',icon:'✉️',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'#',beschrijving:'Standaard wervingsbrief voor kandidaat-makelaars'},
+{id:15,cat:'werving',titel:'Vacaturetekst LinkedIn',icon:'💼',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'#',beschrijving:'LinkedIn vacaturetekst makelaar'},
+{id:16,cat:'werving',titel:'Interviewvragen Gids',icon:'💬',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'#',beschrijving:'Gestructureerde interviewvragen per competentie'},
+{id:17,cat:'werving',titel:'Onboarding Checklist Dag 1',icon:'✅',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'#',beschrijving:'Actiepunten voor de eerste werkdag'},
+{id:18,cat:'werving',titel:'ACES Profielscan',icon:'🧬',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'https://a-c-e-s-test.netlify.app',beschrijving:'Profiel- en competentiescan voor kandidaten'},
+{id:19,cat:'werving',titel:'Kandidatenformulier Jotform',icon:'📋',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'https://form.jotform.com/260858872462873',beschrijving:'Online kandidatenformulier voor sollicitanten'},
+{id:20,cat:'werving',titel:'Welkomstpakket Nieuw Makelaar',icon:'🎁',status:'Te controleren',eigenaar:'Ton Coffeng',datum:'feb 2026',url:'#',beschrijving:'Informatiepakket voor eerste werkweek'},
+{id:21,cat:'verkoop',titel:'Verkoopopdracht Overeenkomst',icon:'📄',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Standaard verkoopopdracht voor woningen'},
+{id:22,cat:'verkoop',titel:'OTD Handleiding Verkoop',icon:'📘',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'#',beschrijving:'Stap-voor-stap handleiding verkoopproces'},
+{id:23,cat:'aankoop',titel:'Aankoopopdracht Overeenkomst',icon:'📄',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Standaard aankoopopdracht'},
+{id:24,cat:'aankoop',titel:'OTD Handleiding Aankoop',icon:'📘',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'#',beschrijving:'Stap-voor-stap handleiding aankoopproces'},
+{id:25,cat:'finance',titel:'Courtageoverzicht per Level',icon:'💶',status:'Actueel',eigenaar:'Johan Vast',datum:'jan 2026',url:'#',beschrijving:'Courtagepercentages per level'},
+{id:26,cat:'finance',titel:'Declaratieformulier',icon:'🧾',status:'Actueel',eigenaar:'Johan Vast',datum:'jan 2026',url:'#',beschrijving:'Formulier voor onkostendeclaraties'},
+{id:27,cat:'compliance',titel:'WWFT Cliëntacceptatie',icon:'⚖️',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Wet ter voorkoming van witwassen'},
+{id:28,cat:'compliance',titel:'Privacy Statement MVA',icon:'🔒',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Privacyverklaring Makelaarsvan Amsterdam'}
+];
+const CAT_NAMEN={werving:'Werving & Selectie',verkoop:'Verkoop',aankoop:'Aankoop',finance:'Finance & HR',compliance:'Compliance & WWFT'};
+let huidigeCategorie='werving',userLevel='';
+function init(){const t=localStorage.getItem('mvaDocToken');if(t){const d=JSON.parse(atob(t));if(Date.now()-d.ts<86400000){inloggen(d.level,d.name);return}}document.getElementById('loginScreen').style.display='flex';}
+async function doLogin(){const email=document.getElementById('loginEmail').value.trim(),password=document.getElementById('loginPassword').value,errEl=document.getElementById('loginError');errEl.style.display='none';const emails={'toncoffeng@makelaarsvan.nl':'directie','hanskoppes@makelaarsvan.nl':'directie','moniqueklaver@makelaarsvan.nl':'makelaar'};const lvl=emails[email.toLowerCase()];if(lvl&&password==='Level2!'){const naam=email.split('@')[0];localStorage.setItem('mvaDocToken',btoa(JSON.stringify({level:lvl,name:naam,ts:Date.now()})));inloggen(lvl,naam);}else if(lvl&&password==='MVA2026!'){const naam=email.split('@')[0];localStorage.setItem('mvaDocToken',btoa(JSON.stringify({level:lvl,name:naam,ts:Date.now()})));inloggen(lvl,naam);}else{errEl.textContent='Onbekend e-mailadres of onjuist wachtwoord.';errEl.style.display='block';}}
+function inloggen(level,name){userLevel=level;document.getElementById('loginScreen').style.display='none';document.getElementById('levelBadge').textContent=level==='directie'?'Directie':'Makelaar';document.getElementById('userName').textContent=name;if(level==='directie')document.getElementById('tabsWrap').style.display='flex';renderDocs();}
+function doLogout(){localStorage.removeItem('mvaDocToken');location.reload();}
+function selectCat(cat){huidigeCategorie=cat;document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.remove('active'));document.getElementById('cat-'+cat).classList.add('active');document.getElementById('catTitle').textContent=CAT_NAMEN[cat];document.getElementById('searchInput').value='';document.getElementById('statusFilter').value='';renderDocs();}
+function switchTab(tab){document.getElementById('zoekenTab').style.display=tab==='zoeken'?'block':'none';document.getElementById('beheerTab').style.display=tab==='beheer'?'block':'none';document.getElementById('tab-zoeken').classList.toggle('active',tab==='zoeken');document.getElementById('tab-beheer').classList.toggle('active',tab==='beheer');if(tab==='beheer')renderBeheer();}
+function filterDocs(){renderDocs();}
+function renderDocs(){const zoek=document.getElementById('searchInput').value.toLowerCase(),statusF=document.getElementById('statusFilter').value;let docs=DOCS.filter(d=>d.cat===huidigeCategorie);if(zoek)docs=docs.filter(d=>d.titel.toLowerCase().includes(zoek)||d.beschrijving.toLowerCase().includes(zoek));if(statusF)docs=docs.filter(d=>d.status===statusF);document.getElementById('catCount').textContent=docs.length+' document'+(docs.length!==1?'en':'');const grid=document.getElementById('docGrid'),empty=document.getElementById('emptyState');if(docs.length===0){grid.innerHTML='';empty.style.display='block';return;}empty.style.display='none';grid.innerHTML=docs.map(d=>'<div class="doc-card" onclick="openDoc('+d.id+')"><div class="doc-card-top"><div class="doc-icon">'+d.icon+'</div><div class="doc-status status-'+(d.status==='Actueel'?'actueel':d.status==='Te controleren'?'controleren':'verlopen')+'">'+d.status+(userLevel==='directie'?'<button onclick="event.stopPropagation();wijzigStatus('+d.id+')" style="background:none;border:none;cursor:pointer;margin-left:4px;font-size:10px">✏️</button>':'')+'</div></div><div class="doc-title">'+d.titel+'</div><div class="doc-meta">'+d.beschrijving+'</div><div class="doc-footer"><div class="doc-date">📅 '+d.datum+' · '+d.eigenaar+'</div><button class="doc-open-btn">Openen →</button></div></div>').join('');}
+function openDoc(id){const doc=DOCS.find(d=>d.id===id);if(doc&&doc.url&&doc.url!=='#')window.open(doc.url,'_blank');else showAlert('📄 '+doc.titel+' — wordt via SharePoint geopend (binnenkort)');}
+function showAlert(msg){const el=document.getElementById('alertBanner');el.textContent=msg;el.style.display='block';setTimeout(()=>el.style.display='none',4000);}
+function wijzigStatus(id){const doc=DOCS.find(d=>d.id===id),opties=['Actueel','Te controleren','Verlopen'],nieuw=opties[(opties.indexOf(doc.status)+1)%3];doc.status=nieuw;showAlert('Status gewijzigd: '+doc.titel+' → '+nieuw);renderDocs();}
+function renderBeheer(){document.getElementById('beheerBody').innerHTML=DOCS.map(d=>'<tr><td>'+d.icon+' '+d.titel+'</td><td>'+CAT_NAMEN[d.cat]+'</td><td><span class="doc-status status-'+(d.status==='Actueel'?'actueel':d.status==='Te controleren'?'controleren':'verlopen')+'" style="display:inline-flex">'+d.status+'</span></td><td>'+d.eigenaar+'</td><td>'+d.datum+'</td><td><button class="edit-btn" onclick="wijzigStatus('+d.id+')">Status ↻</button></td></tr>').join('');}
+document.getElementById('loginPassword').addEventListener('keypress',e=>{if(e.key==='Enter')doLogin();});
+init();
 </script>
 </body>
 </html>
