@@ -4,176 +4,121 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MVA Documentbibliotheek</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#1A2B5F;--orange:#E8500A;--white:#fff;--bg:#F4F5F8;--border:#D8D8D8;--mid:#555;--light:#888;--green:#2E7D32;--red:#DC2626}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Roboto',sans-serif;background:var(--bg);color:#2D2D2D;font-size:14px}
-.header{background:var(--navy);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--orange)}
-.logo-mark .logo-top{font-size:9px;font-weight:700;color:#fff;letter-spacing:.12em;text-transform:uppercase}
-.logo-mark .logo-bot{font-size:9px;color:rgba(255,255,255,.7);letter-spacing:.08em;text-transform:uppercase}
-.header-title{font-size:15px;font-weight:500;color:#fff;margin-left:12px}
-.header-right{display:flex;align-items:center;gap:12px}
-.level-badge{background:rgba(232,80,10,.2);border:1px solid var(--orange);color:var(--orange);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.08em}
-.user-name{color:rgba(255,255,255,.8);font-size:13px}
-.logout-btn{background:transparent;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.7);padding:5px 12px;border-radius:4px;cursor:pointer;font-size:12px;font-family:'Roboto',sans-serif}
-.login-screen{display:none;position:fixed;inset:0;background:var(--navy);z-index:1000;align-items:center;justify-content:center;flex-direction:column}
-.login-box{background:white;border-radius:12px;padding:40px;width:380px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-.login-title{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:6px;text-align:center}
-.login-sub{color:var(--light);font-size:13px;text-align:center;margin-bottom:28px}
-.form-group{margin-bottom:16px}
-.form-label{display:block;font-size:12px;font-weight:500;color:var(--navy);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
-.form-input{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:6px;font-size:14px;font-family:'Roboto',sans-serif;outline:none}
-.form-input:focus{border-color:var(--navy)}
-.login-btn{width:100%;padding:12px;background:var(--navy);color:white;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Roboto',sans-serif;margin-top:8px}
-.login-error{color:var(--red);font-size:12px;margin-top:8px;display:none}
-.main-wrap{display:flex;height:calc(100vh - 56px)}
-.sidebar{width:220px;background:white;border-right:1px solid var(--border);padding:20px 0;overflow-y:auto;flex-shrink:0}
-.sidebar-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);padding:0 16px 8px}
-.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;color:var(--mid);font-size:13px;transition:all .15s;border-left:3px solid transparent}
-.sidebar-item:hover{background:var(--bg);color:var(--navy)}
-.sidebar-item.active{background:#EEF1F8;color:var(--navy);font-weight:500;border-left-color:var(--orange)}
-.content{flex:1;overflow-y:auto;padding:24px}
-.tabs{display:flex;gap:4px;margin-bottom:24px;background:white;padding:4px;border-radius:8px;border:1px solid var(--border);width:fit-content}
-.tab-btn{padding:8px 20px;border:none;background:transparent;border-radius:6px;cursor:pointer;font-size:13px;font-family:'Roboto',sans-serif;color:var(--mid)}
-.tab-btn.active{background:var(--navy);color:white;font-weight:500}
-.toolbar{display:flex;gap:12px;margin-bottom:20px;align-items:center}
-.search-wrap{position:relative;flex:1;max-width:400px}
-.search-input{width:100%;padding:9px 14px 9px 36px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-family:'Roboto',sans-serif;outline:none;background:white}
-.search-input:focus{border-color:var(--navy)}
-.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--light)}
-.filter-select{padding:9px 14px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-family:'Roboto',sans-serif;background:white;cursor:pointer;outline:none}
-.cat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.cat-title{font-size:18px;font-weight:700;color:var(--navy)}
-.cat-count{font-size:13px;color:var(--light)}
-.doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-.doc-card{background:white;border-radius:8px;border:1px solid var(--border);padding:16px;cursor:pointer;transition:all .15s}
-.doc-card:hover{border-color:var(--navy);box-shadow:0 4px 12px rgba(26,43,95,.1);transform:translateY(-1px)}
-.doc-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
-.doc-icon{font-size:24px}
-.doc-status{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px}
-.status-actueel{background:#E8F5E9;color:var(--green)}
-.status-controleren{background:#FEF3C7;color:#92400E}
-.status-verlopen{background:#FEE2E2;color:var(--red)}
-.doc-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px;line-height:1.4}
-.doc-meta{font-size:11px;color:var(--light)}
-.doc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--bg)}
-.doc-date{font-size:11px;color:var(--light)}
-.doc-open-btn{font-size:11px;font-weight:600;color:var(--orange);background:none;border:none;cursor:pointer;font-family:'Roboto',sans-serif}
-.beheer-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.add-btn{background:var(--orange);color:white;border:none;padding:9px 18px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;font-family:'Roboto',sans-serif}
-.beheer-table{width:100%;border-collapse:collapse;background:white;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
-.beheer-table th{background:var(--navy);color:white;padding:11px 16px;text-align:left;font-size:12px;font-weight:600}
-.beheer-table td{padding:11px 16px;border-bottom:1px solid var(--bg);font-size:13px;vertical-align:middle}
-.beheer-table tr:hover td{background:#f8f9fc}
-.edit-btn{background:none;border:1px solid var(--border);padding:4px 10px;border-radius:4px;cursor:pointer;font-size:11px;font-family:'Roboto',sans-serif;color:var(--mid)}
-.alert-banner{background:#FEF3C7;border:1px solid #F59E0B;border-radius:6px;padding:10px 16px;margin-bottom:16px;font-size:13px;color:#92400E;display:none}
-.empty-state{text-align:center;padding:60px 20px;color:var(--light)}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Roboto', sans-serif; background: #f5f5f5; color: #25346c; }
+  header { background: #25346c; padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .logo { color: white; font-size: 20px; font-weight: 700; }
+  .logo span { color: #ff6600; }
+  .header-sub { color: rgba(255,255,255,0.6); font-size: 13px; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+  .status-bar { background: white; border-radius: 10px; padding: 14px 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; font-size: 13px; border: 1px solid #e0e0e0; }
+  .status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .dot-loading { background: #ffa500; animation: pulse 1s infinite; }
+  .dot-ok { background: #4caf50; }
+  .dot-error { background: #f44336; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .toolbar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+  .search-box { flex: 1; min-width: 200px; padding: 10px 16px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; font-family: 'Roboto', sans-serif; outline: none; }
+  .search-box:focus { border-color: #ff6600; }
+  .filter-btn { padding: 10px 16px; border: 1px solid #ddd; background: white; border-radius: 8px; font-size: 13px; cursor: pointer; font-family: 'Roboto', sans-serif; color: #25346c; transition: all 0.15s; }
+  .filter-btn.active { background: #ff6600; color: white; border-color: #ff6600; }
+  .section-title { font-size: 13px; font-weight: 500; color: #888; text-transform: uppercase; letter-spacing: 0.8px; margin: 24px 0 12px; }
+  .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .doc-card { background: white; border-radius: 10px; padding: 18px 20px; border: 1px solid #e8e8e8; cursor: pointer; transition: all 0.15s; display: flex; flex-direction: column; gap: 8px; }
+  .doc-card:hover { border-color: #ff6600; box-shadow: 0 3px 12px rgba(255,102,0,0.12); transform: translateY(-1px); }
+  .doc-icon { font-size: 24px; }
+  .doc-name { font-size: 14px; font-weight: 500; color: #25346c; line-height: 1.3; }
+  .doc-meta { font-size: 12px; color: #999; display: flex; gap: 10px; }
+  .doc-tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #f0f4ff; color: #25346c; font-weight: 500; align-self: flex-start; }
+  .doc-tag.oranje { background: #fff3ec; color: #ff6600; }
+  .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 13px; margin-bottom: 20px; flex-wrap: wrap; }
+  .breadcrumb a { color: #ff6600; cursor: pointer; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .empty-state { text-align: center; padding: 60px 20px; color: #aaa; }
+  .loading-spinner { display: flex; justify-content: center; padding: 60px; }
+  .spinner { width: 36px; height: 36px; border: 3px solid #e0e0e0; border-top-color: #ff6600; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error-box { background: #fff3ec; border: 1px solid #ffccaa; border-radius: 10px; padding: 20px; color: #c0440a; font-size: 14px; line-height: 1.6; }
+  .drive-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  .drive-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid #ddd; background: white; font-size: 13px; cursor: pointer; font-family: 'Roboto', sans-serif; color: #25346c; transition: all 0.15s; }
+  .drive-btn.active { background: #25346c; color: white; border-color: #25346c; }
 </style>
 </head>
 <body>
-<div class="login-screen" id="loginScreen">
-  <div class="login-box">
-    <div style="text-align:center;margin-bottom:20px">
-      <div style="font-size:11px;font-weight:700;color:var(--navy);letter-spacing:.15em;text-transform:uppercase">MAKELAARSVAN.</div>
-      <div style="font-size:11px;color:var(--mid);letter-spacing:.1em;text-transform:uppercase">AMSTERDAM</div>
-    </div>
-    <div class="login-title">Documentbibliotheek</div>
-    <div class="login-sub">Log in om documenten te bekijken</div>
-    <div class="form-group"><label class="form-label">E-mailadres</label><input type="email" id="loginEmail" class="form-input" placeholder="naam@makelaarsvan.nl"></div>
-    <div class="form-group"><label class="form-label">Wachtwoord</label><input type="password" id="loginPassword" class="form-input" placeholder="••••••••"></div>
-    <div id="loginError" class="login-error"></div>
-    <button class="login-btn" onclick="doLogin()">Inloggen →</button>
+<header>
+  <div class="logo">MvA <span>Documenten</span></div>
+  <div class="header-sub">SharePoint Bibliotheek</div>
+</header>
+<div class="container">
+  <div class="status-bar" id="statusBar">
+    <div class="status-dot dot-loading" id="statusDot"></div>
+    <span id="statusText">Verbinding maken met SharePoint...</span>
   </div>
-</div>
-<div class="header">
-  <div style="display:flex;align-items:center;gap:12px">
-    <div class="logo-mark"><div class="logo-top">MAKELAARSVAN.</div><div class="logo-bot">AMSTERDAM</div></div>
-    <div style="width:1px;height:28px;background:rgba(255,255,255,.2)"></div>
-    <div class="header-title">📁 Documentbibliotheek</div>
+  <div id="driveSelector" class="drive-selector" style="display:none"></div>
+  <div class="toolbar">
+    <input class="search-box" id="searchBox" type="text" placeholder="Zoek documenten..." oninput="filterDocs()" />
+    <button class="filter-btn active" id="filterAll" onclick="setFilter('all')">Alles</button>
+    <button class="filter-btn" id="filterPdf" onclick="setFilter('pdf')">PDF</button>
+    <button class="filter-btn" id="filterWord" onclick="setFilter('word')">Word</button>
+    <button class="filter-btn" id="filterExcel" onclick="setFilter('excel')">Excel</button>
   </div>
-  <div class="header-right">
-    <span class="level-badge" id="levelBadge">—</span>
-    <span class="user-name" id="userName">—</span>
-    <button class="logout-btn" onclick="doLogout()">Uitloggen</button>
-  </div>
-</div>
-<div class="main-wrap">
-  <div class="sidebar">
-    <div style="padding:0 16px 8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light)">Categorieën</div>
-    <div class="sidebar-item active" onclick="selectCat('werving')" id="cat-werving"><span>👥</span> Werving &amp; Selectie</div>
-    <div class="sidebar-item" onclick="selectCat('verkoop')" id="cat-verkoop"><span>🏠</span> Verkoop</div>
-    <div class="sidebar-item" onclick="selectCat('aankoop')" id="cat-aankoop"><span>🔑</span> Aankoop</div>
-    <div class="sidebar-item" onclick="selectCat('finance')" id="cat-finance"><span>💶</span> Finance &amp; HR</div>
-    <div class="sidebar-item" onclick="selectCat('compliance')" id="cat-compliance"><span>⚖️</span> Compliance &amp; WWFT</div>
-  </div>
-  <div class="content" id="mainContent">
-    <div class="tabs" id="tabsWrap" style="display:none">
-      <button class="tab-btn active" id="tab-zoeken" onclick="switchTab('zoeken')">🔍 Documenten</button>
-      <button class="tab-btn" id="tab-beheer" onclick="switchTab('beheer')">⚙️ Bibliotheek beheer</button>
-    </div>
-    <div id="zoekenTab">
-      <div class="toolbar">
-        <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" class="search-input" id="searchInput" placeholder="Zoek document..." oninput="filterDocs()"></div>
-        <select class="filter-select" id="statusFilter" onchange="filterDocs()"><option value="">Alle statussen</option><option value="Actueel">Actueel</option><option value="Te controleren">Te controleren</option><option value="Verlopen">Verlopen</option></select>
-      </div>
-      <div class="alert-banner" id="alertBanner"></div>
-      <div class="cat-header"><div class="cat-title" id="catTitle">Werving &amp; Selectie</div><div class="cat-count" id="catCount"></div></div>
-      <div class="doc-grid" id="docGrid"></div>
-      <div class="empty-state" id="emptyState" style="display:none"><div style="font-size:48px;margin-bottom:12px">📂</div><div>Geen documenten gevonden</div></div>
-    </div>
-    <div id="beheerTab" style="display:none">
-      <div class="beheer-header"><div class="cat-title">Bibliotheek beheer</div><button class="add-btn" onclick="alert('Binnenkort beschikbaar')">+ Document toevoegen</button></div>
-      <table class="beheer-table"><thead><tr><th>Document</th><th>Categorie</th><th>Status</th><th>Eigenaar</th><th>Datum</th><th></th></tr></thead><tbody id="beheerBody"></tbody></table>
-    </div>
-  </div>
+  <div id="breadcrumb" class="breadcrumb" style="display:none"></div>
+  <div id="content"><div class="loading-spinner"><div class="spinner"></div></div></div>
 </div>
 <script>
-const DOCS=[
-{id:1,cat:'werving',titel:'Arbeidsovereenkomst Makelaar',icon:'📄',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Standaard arbeidsovereenkomst voor nieuwe makelaars'},
-{id:2,cat:'werving',titel:'Bijlage A — Functieomschrijving',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Taakomschrijving en verantwoordelijkheden'},
-{id:3,cat:'werving',titel:'Bijlage B — Salaris & Courtage',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Beloningsstructuur per level'},
-{id:4,cat:'werving',titel:'Bijlage C — Verlof & Verzuim',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Verlofregeling en verzuimprotocol'},
-{id:5,cat:'werving',titel:'Bijlage D — Auto van de zaak',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Regels voor gebruik leaseauto'},
-{id:6,cat:'werving',titel:'Bijlage E — Opleidingen',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Opleidingsvergoedingen en -verplichtingen'},
-{id:7,cat:'werving',titel:'Bijlage F — Geheimhouding',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'NDA en geheimhoudingsverklaring'},
-{id:8,cat:'werving',titel:'Bijlage G — Concurrentiebeding',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Concurrentiebeding na dienstverband'},
-{id:9,cat:'werving',titel:'Bijlage H — Pensioen',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Pensioenregeling MVA'},
-{id:10,cat:'werving',titel:'Bijlage I — Reglement',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Huishoudelijk reglement MVA'},
-{id:11,cat:'werving',titel:'Bijlage J — AVG Verklaring',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Privacy- en gegevensbeschermingsverklaring'},
-{id:12,cat:'werving',titel:'Bijlage K — IT Beleid',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Beleid voor gebruik ICT-middelen'},
-{id:13,cat:'werving',titel:'Bijlage L — Onkostenvergoeding',icon:'📎',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Onkostenvergoedingen en declaratiebeleid'},
-{id:14,cat:'werving',titel:'Wervingsbrief Makelaar',icon:'✉️',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'#',beschrijving:'Standaard wervingsbrief voor kandidaat-makelaars'},
-{id:15,cat:'werving',titel:'Vacaturetekst LinkedIn',icon:'💼',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'#',beschrijving:'LinkedIn vacaturetekst makelaar'},
-{id:16,cat:'werving',titel:'Interviewvragen Gids',icon:'💬',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'#',beschrijving:'Gestructureerde interviewvragen per competentie'},
-{id:17,cat:'werving',titel:'Onboarding Checklist Dag 1',icon:'✅',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'#',beschrijving:'Actiepunten voor de eerste werkdag'},
-{id:18,cat:'werving',titel:'ACES Profielscan',icon:'🧬',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'https://a-c-e-s-test.netlify.app',beschrijving:'Profiel- en competentiescan voor kandidaten'},
-{id:19,cat:'werving',titel:'Kandidatenformulier Jotform',icon:'📋',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'https://form.jotform.com/260858872462873',beschrijving:'Online kandidatenformulier voor sollicitanten'},
-{id:20,cat:'werving',titel:'Welkomstpakket Nieuw Makelaar',icon:'🎁',status:'Te controleren',eigenaar:'Ton Coffeng',datum:'feb 2026',url:'#',beschrijving:'Informatiepakket voor eerste werkweek'},
-{id:21,cat:'verkoop',titel:'Verkoopopdracht Overeenkomst',icon:'📄',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Standaard verkoopopdracht voor woningen'},
-{id:22,cat:'verkoop',titel:'OTD Handleiding Verkoop',icon:'📘',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'#',beschrijving:'Stap-voor-stap handleiding verkoopproces'},
-{id:23,cat:'aankoop',titel:'Aankoopopdracht Overeenkomst',icon:'📄',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Standaard aankoopopdracht'},
-{id:24,cat:'aankoop',titel:'OTD Handleiding Aankoop',icon:'📘',status:'Actueel',eigenaar:'Ton Coffeng',datum:'mrt 2026',url:'#',beschrijving:'Stap-voor-stap handleiding aankoopproces'},
-{id:25,cat:'finance',titel:'Courtageoverzicht per Level',icon:'💶',status:'Actueel',eigenaar:'Johan Vast',datum:'jan 2026',url:'#',beschrijving:'Courtagepercentages per level'},
-{id:26,cat:'finance',titel:'Declaratieformulier',icon:'🧾',status:'Actueel',eigenaar:'Johan Vast',datum:'jan 2026',url:'#',beschrijving:'Formulier voor onkostendeclaraties'},
-{id:27,cat:'compliance',titel:'WWFT Cliëntacceptatie',icon:'⚖️',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Wet ter voorkoming van witwassen'},
-{id:28,cat:'compliance',titel:'Privacy Statement MVA',icon:'🔒',status:'Actueel',eigenaar:'Hans Koppes',datum:'jan 2026',url:'#',beschrijving:'Privacyverklaring Makelaarsvan Amsterdam'}
-];
-const CAT_NAMEN={werving:'Werving & Selectie',verkoop:'Verkoop',aankoop:'Aankoop',finance:'Finance & HR',compliance:'Compliance & WWFT'};
-let huidigeCategorie='werving',userLevel='';
-function init(){const t=localStorage.getItem('mvaDocToken');if(t){const d=JSON.parse(atob(t));if(Date.now()-d.ts<86400000){inloggen(d.level,d.name);return}}document.getElementById('loginScreen').style.display='flex';}
-async function doLogin(){const email=document.getElementById('loginEmail').value.trim(),password=document.getElementById('loginPassword').value,errEl=document.getElementById('loginError');errEl.style.display='none';const emails={'toncoffeng@makelaarsvan.nl':'directie','hanskoppes@makelaarsvan.nl':'directie','moniqueklaver@makelaarsvan.nl':'makelaar'};const lvl=emails[email.toLowerCase()];if(lvl&&password==='Level2!'){const naam=email.split('@')[0];localStorage.setItem('mvaDocToken',btoa(JSON.stringify({level:lvl,name:naam,ts:Date.now()})));inloggen(lvl,naam);}else if(lvl&&password==='MVA2026!'){const naam=email.split('@')[0];localStorage.setItem('mvaDocToken',btoa(JSON.stringify({level:lvl,name:naam,ts:Date.now()})));inloggen(lvl,naam);}else{errEl.textContent='Onbekend e-mailadres of onjuist wachtwoord.';errEl.style.display='block';}}
-function inloggen(level,name){userLevel=level;document.getElementById('loginScreen').style.display='none';document.getElementById('levelBadge').textContent=level==='directie'?'Directie':'Makelaar';document.getElementById('userName').textContent=name;if(level==='directie')document.getElementById('tabsWrap').style.display='flex';renderDocs();}
-function doLogout(){localStorage.removeItem('mvaDocToken');location.reload();}
-function selectCat(cat){huidigeCategorie=cat;document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.remove('active'));document.getElementById('cat-'+cat).classList.add('active');document.getElementById('catTitle').textContent=CAT_NAMEN[cat];document.getElementById('searchInput').value='';document.getElementById('statusFilter').value='';renderDocs();}
-function switchTab(tab){document.getElementById('zoekenTab').style.display=tab==='zoeken'?'block':'none';document.getElementById('beheerTab').style.display=tab==='beheer'?'block':'none';document.getElementById('tab-zoeken').classList.toggle('active',tab==='zoeken');document.getElementById('tab-beheer').classList.toggle('active',tab==='beheer');if(tab==='beheer')renderBeheer();}
-function filterDocs(){renderDocs();}
-function renderDocs(){const zoek=document.getElementById('searchInput').value.toLowerCase(),statusF=document.getElementById('statusFilter').value;let docs=DOCS.filter(d=>d.cat===huidigeCategorie);if(zoek)docs=docs.filter(d=>d.titel.toLowerCase().includes(zoek)||d.beschrijving.toLowerCase().includes(zoek));if(statusF)docs=docs.filter(d=>d.status===statusF);document.getElementById('catCount').textContent=docs.length+' document'+(docs.length!==1?'en':'');const grid=document.getElementById('docGrid'),empty=document.getElementById('emptyState');if(docs.length===0){grid.innerHTML='';empty.style.display='block';return;}empty.style.display='none';grid.innerHTML=docs.map(d=>'<div class="doc-card" onclick="openDoc('+d.id+')"><div class="doc-card-top"><div class="doc-icon">'+d.icon+'</div><div class="doc-status status-'+(d.status==='Actueel'?'actueel':d.status==='Te controleren'?'controleren':'verlopen')+'">'+d.status+(userLevel==='directie'?'<button onclick="event.stopPropagation();wijzigStatus('+d.id+')" style="background:none;border:none;cursor:pointer;margin-left:4px;font-size:10px">✏️</button>':'')+'</div></div><div class="doc-title">'+d.titel+'</div><div class="doc-meta">'+d.beschrijving+'</div><div class="doc-footer"><div class="doc-date">📅 '+d.datum+' · '+d.eigenaar+'</div><button class="doc-open-btn">Openen →</button></div></div>').join('');}
-function openDoc(id){const doc=DOCS.find(d=>d.id===id);if(doc&&doc.url&&doc.url!=='#')window.open(doc.url,'_blank');else showAlert('📄 '+doc.titel+' — wordt via SharePoint geopend (binnenkort)');}
-function showAlert(msg){const el=document.getElementById('alertBanner');el.textContent=msg;el.style.display='block';setTimeout(()=>el.style.display='none',4000);}
-function wijzigStatus(id){const doc=DOCS.find(d=>d.id===id),opties=['Actueel','Te controleren','Verlopen'],nieuw=opties[(opties.indexOf(doc.status)+1)%3];doc.status=nieuw;showAlert('Status gewijzigd: '+doc.titel+' → '+nieuw);renderDocs();}
-function renderBeheer(){document.getElementById('beheerBody').innerHTML=DOCS.map(d=>'<tr><td>'+d.icon+' '+d.titel+'</td><td>'+CAT_NAMEN[d.cat]+'</td><td><span class="doc-status status-'+(d.status==='Actueel'?'actueel':d.status==='Te controleren'?'controleren':'verlopen')+'" style="display:inline-flex">'+d.status+'</span></td><td>'+d.eigenaar+'</td><td>'+d.datum+'</td><td><button class="edit-btn" onclick="wijzigStatus('+d.id+')">Status ↻</button></td></tr>').join('');}
-document.getElementById('loginPassword').addEventListener('keypress',e=>{if(e.key==='Enter')doLogin();});
+const API='/.netlify/functions/sharepoint';
+let allFiles=[],currentFilter='all',currentDriveId=null,currentPath='',pathHistory=[],allDrives=[],currentSiteId=null;
+function fileIcon(n){const e=(n.split('.').pop()||'').toLowerCase();return{pdf:'\u{1F4C4}',docx:'\u{1F4DD}',doc:'\u{1F4DD}',xlsx:'\u{1F4CA}',xls:'\u{1F4CA}',pptx:'\u{1F4CB}',ppt:'\u{1F4CB}'}[e]||'\u{1F4C1}';}
+function fileTag(n){const e=(n.split('.').pop()||'').toLowerCase();return{pdf:{label:'PDF',oranje:true},docx:{label:'Word'},doc:{label:'Word'},xlsx:{label:'Excel'},xls:{label:'Excel'},pptx:{label:'PowerPoint'},ppt:{label:'PowerPoint'}}[e]||null;}
+function formatSize(b){if(!b)return'';if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(0)+' KB';return(b/1048576).toFixed(1)+' MB';}
+function formatDate(d){if(!d)return'';return new Date(d).toLocaleDateString('nl-NL',{day:'numeric',month:'short',year:'numeric'});}
+function setStatus(t,txt){document.getElementById('statusDot').className='status-dot '+(t==='ok'?'dot-ok':t==='error'?'dot-error':'dot-loading');document.getElementById('statusText').textContent=txt;}
+async function init(){
+  try{
+    const tr=await fetch(API+'?action=token-check');
+    if(!tr.ok)throw new Error('Netlify Function niet bereikbaar ('+tr.status+')');
+    setStatus('loading','Token OK — SharePoint sites ophalen...');
+    const sr=await fetch(API+'?action=sites');
+    const sd=await sr.json();
+    if(sd.error)throw new Error('Sites: '+sd.error.message);
+    const sites=sd.value||[];
+    if(sites.length===0)throw new Error('Geen SharePoint sites gevonden. Beheerderstoestemming nodig.');
+    const site=sites.find(s=>s.name&&s.name.toLowerCase().includes('mva'))||sites[0];
+    currentSiteId=site.id;
+    setStatus('loading','Site: '+( site.displayName||site.name)+' — drives laden...');
+    const dr=await fetch(API+'?action=drives&siteId='+encodeURIComponent(currentSiteId));
+    const dd=await dr.json();
+    if(dd.error)throw new Error('Drives: '+dd.error.message);
+    allDrives=dd.value||[];
+    if(allDrives.length===0)throw new Error('Geen document libraries gevonden.');
+    const div=document.getElementById('driveSelector');
+    div.style.display='flex';
+    allDrives.forEach((d,i)=>{const b=document.createElement('button');b.className='drive-btn'+(i===0?' active':'');b.textContent='\u{1F4DA} '+d.name;b.onclick=()=>selectDrive(d.id,d.name,b);div.appendChild(b);});
+    await selectDrive(allDrives[0].id,allDrives[0].name,div.querySelector('.drive-btn'));
+  }catch(e){setStatus('error','Verbindingsfout');document.getElementById('content').innerHTML='<div class="error-box"><strong>SharePoint kon niet worden geladen</strong>'+e.message+'<br><br><small>Controleer: beheerderstoestemming Azure, AZURE_CLIENT_SECRET Netlify, Sites.ReadWrite.All machtiging</small></div>';}
+}
+async function selectDrive(id,name,btn){currentDriveId=id;currentPath='';pathHistory=[{path:'',label:name}];document.querySelectorAll('.drive-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');await loadFiles('',name);}
+async function loadFiles(path){document.getElementById('content').innerHTML='<div class="loading-spinner"><div class="spinner"></div></div>';updateBreadcrumb();
+  try{const r=await fetch(API+'?action=files&driveId='+encodeURIComponent(currentDriveId)+'&path='+encodeURIComponent(path));const d=await r.json();if(d.error)throw new Error(d.error.message);allFiles=d.value||[];setStatus('ok',allFiles.filter(i=>!i.folder).length+' documenten geladen uit SharePoint');renderItems(allFiles);}catch(e){setStatus('error','Fout');document.getElementById('content').innerHTML='<div class="error-box"><strong>Fout bij laden</strong>'+e.message+'</div>';}}
+function updateBreadcrumb(){const bc=document.getElementById('breadcrumb');if(pathHistory.length<=1){bc.style.display='none';return;}bc.style.display='flex';bc.innerHTML=pathHistory.map((p,i)=>i===pathHistory.length-1?'<span>'+p.label+'</span>':'<a onclick="navigateTo('+i+')">'+p.label+'</a> <span>&#8250;</span>').join('');}
+async function navigateTo(i){pathHistory=pathHistory.slice(0,i+1);currentPath=pathHistory[pathHistory.length-1].path;await loadFiles(currentPath);}
+async function openFolder(name){const np=currentPath?currentPath+'/'+name:name;pathHistory.push({path:np,label:name});currentPath=np;await loadFiles(np);}
+function renderItems(items){
+  const q=document.getElementById('searchBox').value.toLowerCase();
+  let f=items;
+  if(q)f=f.filter(i=>i.name.toLowerCase().includes(q));
+  if(currentFilter!=='all'){const m={pdf:['pdf'],word:['docx','doc'],excel:['xlsx','xls']};const ex=m[currentFilter]||[];f=f.filter(i=>i.folder||ex.includes((i.name.split('.').pop()||'').toLowerCase()));}
+  const folders=f.filter(i=>i.folder),files=f.filter(i=>!i.folder);
+  let h='';
+  if(folders.length){h+='<div class="section-title">Mappen ('+folders.length+')</div><div class="doc-grid">';folders.forEach(x=>{h+='<div class="doc-card" onclick="openFolder('+JSON.stringify(x.name).replace(/"/g,\'&quot;\')+')">'+'<div class="doc-icon">\u{1F4C1}</div><div class="doc-name">'+x.name+'</div><div class="doc-meta"><span>'+(x.folder.childCount||0)+' items</span></div></div>';});h+='</div>';}
+  if(files.length){h+='<div class="section-title">Documenten ('+files.length+')</div><div class="doc-grid">';files.forEach(x=>{const t=fileTag(x.name);h+='<div class="doc-card" onclick="window.open(\''+( x.webUrl||'#')+'\',\'_blank\')"><div class="doc-icon">'+fileIcon(x.name)+'</div><div class="doc-name">'+x.name+'</div><div class="doc-meta"><span>'+formatSize(x.size)+'</span><span>'+formatDate(x.lastModifiedDateTime)+'</span></div>'+(t?'<div class="doc-tag'+(t.oranje?' oranje':'')+'">'+t.label+'</div>':'')+'</div>';});h+='</div>';}
+  if(!folders.length&&!files.length)h='<div class="empty-state"><div class="doc-icon" style="font-size:48px">\u{1F4ED}</div><p>Geen documenten gevonden</p></div>';
+  document.getElementById('content').innerHTML=h;
+}
+function filterDocs(){renderItems(allFiles);}
+function setFilter(f){currentFilter=f;['all','pdf','word','excel'].forEach(id=>{const el=document.getElementById('filter'+id.charAt(0).toUpperCase()+id.slice(1));if(el)el.classList.toggle('active',id===f);});renderItems(allFiles);}
 init();
 </script>
 </body>
