@@ -3,7 +3,7 @@ const CLIENT_ID = 'e03d7975-665f-4a3e-ad14-06d3830bfda8';
 
 async function getToken() {
   const res = await fetch(
-    `https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/token`,
+    'https://login.microsoftonline.com/' + TENANT_ID + '/oauth2/v2.0/token',
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -12,7 +12,7 @@ async function getToken() {
         client_id: CLIENT_ID,
         client_secret: process.env.AZURE_CLIENT_SECRET,
         scope: 'https://graph.microsoft.com/.default'
-      })
+      }).toString()
     }
   );
   const data = await res.json();
@@ -27,14 +27,15 @@ exports.handler = async (event) => {
   };
   try {
     const token = await getToken();
-    const action = event.queryStringParameters && event.queryStringParameters.action || 'sites';
+    const params = event.queryStringParameters || {};
+    const action = params.action || 'rootsite';
 
     if (action === 'token-check') {
       return { statusCode: 200, headers, body: JSON.stringify({ ok: true, message: 'Token succesvol opgehaald' }) };
     }
 
-    if (action === 'sites') {
-      const res = await fetch('https://graph.microsoft.com/v1.0/sites?search=*', {
+    if (action === 'rootsite') {
+      const res = await fetch('https://graph.microsoft.com/v1.0/sites/root', {
         headers: { Authorization: 'Bearer ' + token }
       });
       const data = await res.json();
@@ -42,25 +43,25 @@ exports.handler = async (event) => {
     }
 
     if (action === 'drives') {
-      const siteId = event.queryStringParameters.siteId;
-      const res = await fetch(`https://graph.microsoft.com/v1.0/sites/${siteId}/drives`,
+      const siteId = params.siteId;
+      const res = await fetch('https://graph.microsoft.com/v1.0/sites/' + encodeURIComponent(siteId) + '/drives',
         { headers: { Authorization: 'Bearer ' + token } });
       const data = await res.json();
       return { statusCode: 200, headers, body: JSON.stringify(data) };
     }
 
     if (action === 'files') {
-      const driveId = event.queryStringParameters.driveId;
-      const path = event.queryStringParameters.path || '';
+      const driveId = params.driveId;
+      const path = params.path || '';
       const url = path
-        ? `https://graph.microsoft.com/v1.0/drives/${driveId}/root:/${path}:/children`
-        : `https://graph.microsoft.com/v1.0/drives/${driveId}/root/children`;
+        ? 'https://graph.microsoft.com/v1.0/drives/' + driveId + '/root:/' + encodeURIComponent(path) + ':/children'
+        : 'https://graph.microsoft.com/v1.0/drives/' + driveId + '/root/children';
       const res = await fetch(url, { headers: { Authorization: 'Bearer ' + token } });
       const data = await res.json();
       return { statusCode: 200, headers, body: JSON.stringify(data) };
     }
 
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Onbekende actie' }) };
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Onbekende actie: ' + action }) };
   } catch (err) {
     return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
   }
