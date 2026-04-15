@@ -11,7 +11,7 @@ exports.handler = async function(event, context) {
       const data = await res.json();
       if (!data.content || !data.content.length) break;
       // Alleen DELETED eruit — ACTIVE en ARCHIVED allebei tonen
-      all = all.concat(data.content.filter(s => s.status !== 'DELETED'));
+      all = all.concat(data.content.filter(s => s.status !== 'DELETED' && s.status !== 'ARCHIVED'));
       if (data.content.length < 100) break;
       offset += 100;
     }
