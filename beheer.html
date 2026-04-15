@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MVA Gebruikersbeheer</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F6F4EF;min-height:100vh}
+header{background:#1A2B5F;height:56px;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.hlogo{color:#fff;font-size:15px;font-weight:600}.hlogo b{color:#E8500A}
+.hright{display:flex;align-items:center;gap:10px}
+.huser{font-size:13px;color:rgba(255,255,255,.55)}
+.hbtn{padding:5px 13px;border:1px solid rgba(255,255,255,.3);border-radius:6px;background:transparent;color:#fff;font-size:12px;cursor:pointer}
+#ls{min-height:100vh;background:#1A2B5F;display:flex;align-items:center;justify-content:center}
+.lb{background:#fff;border-radius:14px;padding:2rem;width:360px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.lb h2{font-size:20px;font-weight:700;color:#1A2B5F;margin-bottom:4px}
+.lb p{font-size:13px;color:#6B6760;margin-bottom:1.5rem}
+.lb label{font-size:12px;font-weight:600;color:#6B6760;display:block;margin-bottom:4px}
+.lb input{width:100%;height:40px;border:1.5px solid #E2DFD8;border-radius:8px;padding:0 12px;font-size:14px;margin-bottom:1rem;outline:none;font-family:inherit}
+.lb input:focus{border-color:#1A2B5F}
+.lb button{width:100%;height:42px;background:#1A2B5F;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer}
+.le{color:#E8500A;font-size:13px;margin-top:.5rem;text-align:center}
+#app{display:none;max-width:860px;margin:0 auto;padding:1.5rem}
+.card{background:#fff;border-radius:12px;border:1px solid #E2DFD8;padding:1.5rem;margin-bottom:1.25rem}
+.card h3{font-size:15px;font-weight:600;color:#1A2B5F;margin-bottom:1rem}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;align-items:end}
+label{font-size:12px;font-weight:600;color:#6B6760;display:block;margin-bottom:4px}
+input,select{width:100%;height:38px;border:1.5px solid #E2DFD8;border-radius:7px;padding:0 10px;font-size:13px;outline:none;font-family:inherit}
+input:focus,select:focus{border-color:#1A2B5F}
+.btn-add{height:38px;background:#E8500A;color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;width:100%}
+.note{background:#E6F1FB;border-radius:8px;padding:.7rem 1rem;font-size:12.5px;color:#0C447C;margin-bottom:1rem;line-height:1.5}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.ch h3{margin:0}
+.btn-sm{padding:6px 14px;font-size:12px;background:#1A2B5F;color:#fff;border:none;border-radius:6px;cursor:pointer}
+table{width:100%;border-collapse:collapse}
+th{font-size:11px;font-weight:600;color:#B0ACA2;text-transform:uppercase;letter-spacing:.05em;padding:.5rem .75rem;text-align:left;border-bottom:1px solid #E2DFD8}
+td{padding:.65rem .75rem;font-size:13px;border-bottom:1px solid #F0EEE9}
+.bd{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500}
+.bd-dir{background:#E6F1FB;color:#0C447C}.bd-mak{background:#EAF3DE;color:#27500A}.bd-comp{background:#EEEDFE;color:#3C3489}
+.bd-on{background:#EAF3DE;color:#27500A}.bd-off{background:#F0EEE9;color:#B0ACA2}
+.btn-del{padding:4px 11px;font-size:12px;background:#fee2e2;color:#b91c1c;border:none;border-radius:5px;cursor:pointer}
+.msg{padding:.7rem 1rem;border-radius:8px;font-size:13px;margin-bottom:1rem}
+.ok{background:#EAF3DE;color:#27500A}.err{background:#fee2e2;color:#b91c1c}
+</style>
+</head>
+<body>
+<div id="ls">
+  <div class="lb">
+    <h2>MVA <b>Beheer</b></h2>
+    <p>Inloggen als directie</p>
+    <label>E-mailadres</label>
+    <input type="email" id="em" placeholder="naam@makelaarsvan.nl">
+    <label>Wachtwoord</label>
+    <input type="password" id="pw" placeholder="Wachtwoord" onkeydown="if(event.key==='Enter')login()">
+    <button onclick="login()">Inloggen</button>
+    <div class="le" id="le"></div>
+  </div>
+</div>
+<header style="display:none" id="hdr">
+  <div class="hlogo">MVA <b>Beheer</b></div>
+  <div class="hright">
+    <span class="huser" id="hu"></span>
+    <button class="hbtn" onclick="location.href='https://mva-intelligence.netlify.app'">Portal</button>
+    <button class="hbtn" onclick="location.href='https://q-and-a-mva.netlify.app'">Q&A</button>
+    <button class="hbtn" onclick="logout()">Uitloggen</button>
+  </div>
+</header>
+<div id="app">
+  <div id="ma"></div>
+  <div class="note">Gebruikers die je toevoegt krijgen toegang tot de Q&A. Stuur wachtwoord handmatig: <b>Directie = Level2!</b> &nbsp;|&nbsp; <b>Makelaar / Compliance = MVA2026!</b></div>
+  <div class="card">
+    <h3>Nieuwe gebruiker toevoegen</h3>
+    <div class="row3">
+      <div><label>Naam</label><input id="fn" placeholder="Jan de Vries"></div>
+      <div><label>E-mailadres</label><input id="fe" placeholder="jan@makelaarsvan.nl"></div>
+      <div><label>Niveau</label><select id="fl"><option value="makelaar">Makelaar</option><option value="directie">Directie</option><option value="compliance">Compliance</option></select></div>
+    </div>
+    <button class="btn-add" onclick="addUser()">Gebruiker toevoegen</button>
+  </div>
+  <div class="card">
+    <div class="ch"><h3>Alle gebruikers</h3><button class="btn-sm" onclick="load()">Vernieuwen</button></div>
+    <div id="ta"><p style="color:#B0ACA2;font-size:13px">Laden...</p></div>
+  </div>
+</div>
+<script>
+const DB = supabase.createClient('https://ehqtyhoeubchcwfavdzr.supabase.co','sb_publishable_OqTL874jsDEMKg9LomfrmQ_nwIo6Wet');
+function msg(t,ok){const a=document.getElementById('ma');a.innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+t+'</div>';setTimeout(()=>a.innerHTML='',5000);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+async function login(){
+  const em=document.getElementById('em').value.trim();
+  const pw=document.getElementById('pw').value;
+  document.getElementById('le').textContent='';
+  try{
+    const r=await fetch('https://q-and-a-mva.netlify.app/.netlify/functions/auth',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'login',email:em,password:pw})
+    });
+    const d=await r.json();
+    if(!d.success){document.getElementById('le').textContent='Ongeldige inloggegevens';return;}
+    const l=(d.level||'').toLowerCase();
+    if(l!=='directie'&&l!=='level2'){document.getElementById('le').textContent='Alleen directie heeft toegang';return;}
+    document.getElementById('ls').style.display='none';
+    document.getElementById('hdr').style.display='flex';
+    document.getElementById('app').style.display='block';
+    document.getElementById('hu').textContent=d.name;
+    load();
+  }catch(e){document.getElementById('le').textContent='Verbindingsfout';}
+}
+function logout(){
+  document.getElementById('ls').style.display='flex';
+  document.getElementById('hdr').style.display='none';
+  document.getElementById('app').style.display='none';
+}
+async function load(){
+  const{data,error}=await DB.from('gebruikers').select('id,naam,email,level,actief').order('naam');
+  if(error){document.getElementById('ta').innerHTML='<p style="color:red;font-size:13px">'+error.message+'</p>';return;}
+  if(!data||!data.length){document.getElementById('ta').innerHTML='<p style="color:#B0ACA2;font-size:13px">Geen gebruikers</p>';return;}
+  const rows=data.map(u=>'<tr><td>'+esc(u.naam)+'</td><td style="color:#6B6760">'+esc(u.email)+'</td>'
+    +'<td><span class="bd '+(u.level==='directie'?'bd-dir':u.level==='compliance'?'bd-comp':'bd-mak')+'">'+esc(u.level)+'</span></td>'
+    +'<td><span class="bd '+(u.actief?'bd-on':'bd-off')+'">'+(u.actief?'Actief':'Inactief')+'</span></td>'
+    +'<td><button class="btn-del" onclick="del(''+u.id+'',''+esc(u.naam)+'')">Verwijder</button></td></tr>').join('');
+  document.getElementById('ta').innerHTML='<table><thead><tr><th>Naam</th><th>E-mail</th><th>Niveau</th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
+}
+async function addUser(){
+  const naam=document.getElementById('fn').value.trim();
+  const email=document.getElementById('fe').value.trim().toLowerCase();
+  const level=document.getElementById('fl').value;
+  if(!naam||!email){msg('Vul naam en e-mailadres in',false);return;}
+  const{error}=await DB.from('gebruikers').insert([{naam,email,level,actief:true}]);
+  if(error){msg('Fout: '+error.message,false);return;}
+  msg(naam+' toegevoegd. Wachtwoord: '+(level==='directie'?'Level2!':'MVA2026!'),true);
+  document.getElementById('fn').value='';
+  document.getElementById('fe').value='';
+  load();
+}
+async function del(id,naam){
+  if(!confirm('Verwijder '+naam+'?'))return;
+  const{error}=await DB.from('gebruikers').delete().eq('id',id);
+  if(error){msg('Fout: '+error.message,false);return;}
+  msg(naam+' verwijderd',true);
+  load();
+}
+</script>
+</body>
+</html>
