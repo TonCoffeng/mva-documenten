@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MVA Leveranciers</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#1A2B5F;--navy2:#253470;--orange:#E8500A;--cream:#F6F4EF;--white:#FFFFFF;--g100:#F0EEE9;--g200:#E2DFD8;--g400:#B0ACA2;--g600:#6B6760;--g800:#2C2B27;--r:12px;--rs:8px}
+:root{--navy:#1A2B5F;--navy2:#253470;--orange:#E8500A;--cream:#F6F4EF;--white:#FFF;--g100:#F0EEE9;--g200:#E2DFD8;--g400:#B0ACA2;--g600:#6B6760;--g800:#2C2B27;--r:12px;--rs:8px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--g800);min-height:100vh}
 header{background:var(--navy);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.18)}
@@ -20,15 +20,13 @@ header{background:var(--navy);height:60px;display:flex;align-items:center;justif
 .sw svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.35}
 input[type=search]{width:100%;height:40px;padding:0 12px 0 38px;border:1.5px solid var(--g200);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13.5px;background:var(--g100);color:var(--g800);outline:none;transition:border .15s,background .15s}
 input[type=search]:focus{border-color:var(--navy);background:#fff}
-input[type=search]::placeholder{color:var(--g400)}
-select{height:40px;padding:0 32px 0 12px;border:1.5px solid var(--g200);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13px;background:var(--g100) url("data:image/svg+xml,%3Csvg width='10' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B6760' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center;appearance:none;outline:none;cursor:pointer;color:var(--g800);transition:border .15s}
-select:focus{border-color:var(--navy)}
+select{height:40px;padding:0 32px 0 12px;border:1.5px solid var(--g200);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13px;background:var(--g100) url("data:image/svg+xml,%3Csvg width='10' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B6760' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center;appearance:none;outline:none;cursor:pointer;color:var(--g800)}
 .main{max-width:1300px;margin:0 auto;padding:1.25rem 1.5rem 3rem}
 .rbar{font-size:12.5px;color:var(--g600);margin-bottom:1rem;min-height:18px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:14px}
-.card{background:var(--white);border-radius:var(--r);border:1px solid var(--g200);overflow:hidden;cursor:pointer;transition:transform .14s,box-shadow .14s,border-color .14s;animation:fadeUp .25s ease both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,43,95,.1);border-color:var(--g400)}
+.card{background:var(--white);border-radius:var(--r);border:1px solid var(--g200);overflow:hidden;cursor:pointer;transition:transform .14s,box-shadow .14s;animation:fu .25s ease both}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,43,95,.1)}
 .ctop{padding:1rem 1.1rem .75rem;display:flex;gap:11px;align-items:flex-start}
 .av{width:40px;height:40px;border-radius:var(--rs);background:var(--navy);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:16px;color:#fff;flex-shrink:0}
 .av1{background:var(--orange)}.av2{background:#0F6E56}.av3{background:#534AB7}.av4{background:#993556}.av5{background:#185FA5}
@@ -44,54 +42,45 @@ select:focus{border-color:var(--navy)}
 .arr{width:26px;height:26px;border-radius:6px;background:var(--g100);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .14s}
 .card:hover .arr{background:var(--orange)}
 .card:hover .arr svg path{stroke:#fff}
-.empty{text-align:center;padding:4rem 1rem;color:var(--g400)}
-.empty p{font-size:14px;margin-top:.5rem}
-.loading{text-align:center;padding:4rem 1rem}
+.empty,.loading{text-align:center;padding:4rem 1rem;color:var(--g400)}
 .spin{width:32px;height:32px;border:2.5px solid var(--g200);border-top-color:var(--navy);border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 1rem}
 @keyframes sp{to{transform:rotate(360deg)}}
-.loading p{font-size:13px;color:var(--g400)}
-.overlay{position:fixed;inset:0;background:rgba(26,43,95,.4);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(3px)}
+.overlay{position:fixed;inset:0;background:rgba(26,43,95,.4);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
 .overlay.open{display:flex}
-.modal{background:var(--white);border-radius:16px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.18);animation:su .2s ease}
-@keyframes su{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal{background:var(--white);border-radius:16px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.18)}
 .mhead{padding:1.25rem 1.25rem .9rem;display:flex;gap:12px;align-items:flex-start;border-bottom:1px solid var(--g200);position:sticky;top:0;background:#fff;z-index:1}
 .mav{width:48px;height:48px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:20px;color:#fff;flex-shrink:0}
 .mtitle{font-size:19px;font-weight:600;color:var(--navy);line-height:1.2}
 .msub{font-size:12.5px;color:var(--g600);margin-top:3px}
-.xbtn{margin-left:auto;width:30px;height:30px;border:none;border-radius:6px;background:var(--g100);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .14s}
-.xbtn:hover{background:var(--g200)}
+.xbtn{margin-left:auto;width:30px;height:30px;border:none;border-radius:6px;background:var(--g100);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .mbody{padding:1.1rem 1.25rem 1.5rem}
 .msec{margin-bottom:1.3rem}.msec:last-child{margin-bottom:0}
 .mlbl{font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--g400);display:flex;align-items:center;gap:6px;margin-bottom:7px}
 .mlbl::after{content:'';flex:1;height:1px;background:var(--g200)}
-.irow{display:flex;gap:8px;margin-bottom:5px;font-size:13px;align-items:flex-start}
-.ilbl{color:var(--g600);min-width:130px;flex-shrink:0;padding-top:1px}
+.irow{display:flex;gap:8px;margin-bottom:5px;font-size:13px}
+.ilbl{color:var(--g600);min-width:130px;flex-shrink:0}
 .ival{color:var(--g800);font-weight:500;flex:1}
 .ival a{color:var(--navy);text-decoration:none}
 .ival a:hover{color:var(--orange);text-decoration:underline}
 .dblock{font-size:13px;color:var(--g600);line-height:1.6;background:var(--g100);border-radius:var(--rs);padding:.8rem 1rem}
-.wbtn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--navy);color:#fff;border-radius:var(--rs);font-size:13px;font-weight:500;text-decoration:none;transition:background .14s;margin-top:4px}
-.wbtn:hover{background:var(--navy2)}
+.wbtn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--navy);color:#fff;border-radius:var(--rs);font-size:13px;font-weight:500;text-decoration:none;margin-top:4px}
 </style>
 </head>
 <body>
 <header>
   <div class="logo">
     <div class="logo-mark">M</div>
-    <div>
-      <div class="logo-name">MvA Leveranciers</div>
-      <div class="logo-sub">MakelaarsVan Amsterdam</div>
-    </div>
+    <div><div class="logo-name">MvA Leveranciers</div><div class="logo-sub">MakelaarsVan Amsterdam</div></div>
   </div>
-  <div class="hdr-right">Live Â· <b id="tc">â</b> partners</div>
+  <div class="hdr-right">Live &middot; <b id="tc">-</b> partners</div>
 </header>
 <div class="controls">
   <div class="sw">
     <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="#1A2B5F" stroke-width="1.5"/><path d="M10.5 10.5L13.5 13.5" stroke="#1A2B5F" stroke-width="1.5" stroke-linecap="round"/></svg>
-    <input type="search" id="sq" placeholder="Zoek op naam of omschrijvingâ¦" oninput="filterCards()">
+    <input type="search" id="sq" placeholder="Zoek op naam..." oninput="filterCards()">
   </div>
   <select id="sc" onchange="filterCards()">
-    <option value="">Alle categorieÃ«n</option>
+    <option value="">Alle categorieen</option>
     <option>Leverancier nationaal</option>
     <option>Leverancier lokaal</option>
     <option>Global tech leverancier</option>
@@ -106,43 +95,124 @@ select:focus{border-color:var(--navy)}
     <option>Amsterdam</option>
     <option>Hoorn</option>
     <option>Purmerend</option>
-    <option value="'t Gooi">'t Gooi</option>
   </select>
 </div>
 <div class="main">
   <div class="rbar" id="rb"></div>
-  <div id="gc"><div class="loading"><div class="spin"></div><p>Leveranciers ladenâ¦</p></div></div>
+  <div id="gc"><div class="loading"><div class="spin"></div><p>Leveranciers laden...</p></div></div>
 </div>
-<div class="overlay" id="ov" onclick="closeOv(event)">
+<div class="overlay" id="ov" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="mhead">
       <div class="mav" id="mav"></div>
       <div><div class="mtitle" id="mtitle"></div><div class="msub" id="msub"></div></div>
-      <button class="xbtn" onclick="closeBtn()"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="#6B6760" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+      <button class="xbtn" onclick="closeModal()">&#x2715;</button>
     </div>
     <div class="mbody" id="mb"></div>
   </div>
 </div>
 <script>
-let all=[],filtered=[];
-const AVC=['','av1','av2','av3','av4','av5'];
-function avc(n){let h=0;for(const c of n||'')h+=c.charCodeAt(0);return AVC[h%AVC.length]}
-function ini(n){if(!n)return'?';const w=n.trim().split(/\s+/);return w.length===1?w[0].slice(0,2).toUpperCase():(w[0][0]+w[w.length-1][0]).toUpperCase()}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-const CAT_MAP={'Leverancier nationaal':['tnat','Nationaal'],'Leverancier lokaal':['tlok','Lokaal'],'Global tech leverancier':['tglob','Global tech'],'Strategische business partner':['tstrat','Strategisch'],'Business partner nationaal':['tbiz','Business'],'Business partner lokaal':['tbiz','Business lokaal'],'Cross selling partner nationaal':['tcross','Cross selling'],'Cross selling partner lokaal':['tcross','Cross selling lokaal']};
-const SKIP=['geen@geen.nl','geen','n.v.t.','nee','niet van toepassing','niet bekend','(000) 000-0000'];
-function clean(v){if(!v)return'';if(typeof v==='object'){if(v.prettyFormat){const p=v.prettyFormat;return SKIP.some(s=>p.toLowerCase().trim()===s)?'':p;}if(v.full){return SKIP.some(s=>v.full.toLowerCase().trim()===s)?'':v.full;}if(v.first||v.last){const p=[v.first,v.middle,v.last].filter(Boolean).join(' ').trim();const pr=(v.prefix||'').toLowerCase();return(!p||['geen','n.v.t.','niet bekend','nee'].includes(pr))?'':p;}return'';}const s=String(v).trim();return SKIP.some(x=>s.toLowerCase()===x)?'':s;}
-function gn(a,k){const v=a[k]&&a[k].answer;if(!v||typeof v!=='object')return'';const p=[v.first,v.middle,v.last].filter(Boolean).join(' ').trim();const pr=(v.prefix||'').toLowerCase();return(!p||['geen','n.v.t.','niet bekend','nee'].includes(pr))?'':p;}
-function buildCard(d,i){const[tc,tl]=CAT_MAP[d.cat]||['',''];return `<div class="card" onclick="openModal(${i})" style="animation-delay:${Math.min(i*25,400)}ms"><div class="ctop"><div class="av ${avc(d.naam)}">${ini(d.naam)}</div><div class="cmeta"><div class="cname">${esc(d.naam)}</div>${tl?`<span class="ctag ${tc}">${tl}</span>`:''}</div></div>${d.omschrijving?`<div class="cdesc">${esc(d.omschrijving)}</div>":''}<div class="cfoot"><div class="chip"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="4.5" r="2.5" stroke="#6B6760" stroke-width="1.2"/><path d="M1.5 11.5c0-2.761 2.239-5 5-5s5 2.239 5 5" stroke="#6B6760" stroke-width="1.2" stroke-linecap="round"/></svg><span>${esc(d.amNaam||d.eindverantw||d.algEmail||'â')}</span></div><div class="arr"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="#6B6760" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div></div>`;}
-function row(l,v,lnk){if(!v)return'';const vh=lnk?`<a href="${esc(v)}" target="_blank" rel="noopener">${esc(v)}</a>`:esc(v);return`<div class="irow"><span class="ilbl">${l}</span><span class="ival">${vh}</span></div>`;}
-function sec(l,b){return`<div class="msec"><div class="mlbl">${l}</div>${b}</div>`;}
-function openModal(i){const d=filtered[i];if(!d)return;document.getElementById('mav').className='mav '+avc(d.naam);document.getElementById('mav').textContent=ini(d.naam);document.getElementById('mtitle').textContent=d.naam;document.getElementById('msub').textContent=[(CAT_MAP[d.cat]||[])[1],d.kantoor&&d.kantoor!=='N.v.t.'?d.kantoor:''].filter(Boolean).join(' Â· ');let b='';if(d.omschrijving)b+=sec('Omschrijving',`<div class="dblock">${esc(d.omschrijving)}</div>`);if(d.website)b+=sec('Website',`<a class="wbtn" href="${esc(d.website)}" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="#fff" stroke-width="1.2"/></svg>${esc(d.website)}</a>`);if(d.amNaam||d.amEmail||d.amTel){b+=sec('Accountmanager',row('Naam',d.amNaam)+row('Telefoon',d.amTel)+row('E-mail',d.amEmail));}else if(d.eindverantw||d.eindEmail||d.eindTel){b+=sec('Contactpersoon',row('Naam',d.eindverantw)+row('Functie',d.eindFunctie==='N.v.t.'?'':d.eindFunctie)+row('Telefoon',d.eindTel)+row('E-mail',d.eindEmail));}if(d.algEmail||d.algTel){const sc=d.supportContact&&!['geen','n.v.t.'].includes(d.supportContact.toLowerCase())?row('Support',d.supportContact,d.supportContact.startsWith('http')):'';b+=sec('Algemeen contact',row('E-mail',d.algEmail)+row('Telefoon',d.algTel)+sc);}if(d.onboarding)b+=sec('Onboarding',`<div class="dblock">${esc(d.onboarding)}</div>`);if(d.duur||d.opzegtermijn||d.einddatum||d.opzeggen||d.betalingsstructuur){b+=sec('Contract',row('Duur',d.duur)+row('Opzegtermijn',d.opzegtermijn)+row('Einddatum',d.einddatum)+row('Opzeggen vÃ³Ã³r',d.opzeggen)+row('Betalingsstructuur',d.betalingsstructuur));}document.getElementById('mb').innerHTML=b;document.getElementById('ov').classList.add('open');document.body.style.overflow='hidden';}
-function closeOv(e){if(e.target===document.getElementById('ov'))closeBtn();}
-function closeBtn(){document.getElementById('ov').classList.remove('open');document.body.style.overflow='';}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBtn();});
-function filterCards(){const q=document.getElementById('sq').value.toLowerCase();const cat=document.getElementById('sc').value;const kant=document.getElementById('sk').value;filtered=all.filter(d=>{const mq=!q||d.naam.toLowerCase().includes(q)||(d.omschrijving||'').toLowerCase().includes(q);const mc=!cat||d.cat===cat;const mk=!kant||d.kantoor===kant;return mq&&mc&&mk;}).sort((a,b)=>a.naam.localeCompare(b.naam,'nl'));document.getElementById('rb').textContent=filtered.length===all.length?`${all.length} leveranciers`:`${filtered.length} van ${all.length} leveranciers`;if(!filtered.length){document.getElementById('gc').innerHTML='<div class="empty"><div style="font-size:36px;opacity:.3">ð</div><p>Geen leveranciers gevonden.</p></div>';return;}const g=document.createElement('div');g.className='grid';g.innerHTML=filtered.map(buildCard).join('');document.getElementById('gc').innerHTML='';document.getElementById('gc').appendChild(g);}
-async function load(){try{const r=await fetch('/api/leveranciers');if(!r.ok)throw new Error(r.status);all=await r.json();document.getElementById('tc').textContent=all.length;filterCards();}catch(e){document.getElementById('gc').innerHTML='<div class="empty"><div style="font-size:36px;opacity:.3">â ï¸</div><p>Kon leveranciers niet laden. Ververs de pagina.</p></div>';}}
-load();
+var allData=[],filteredData=[];
+var AVC=['','av1','av2','av3','av4','av5'];
+function avc(n){var h=0;for(var i=0;i<(n||'').length;i++)h+=n.charCodeAt(i);return AVC[h%AVC.length];}
+function ini(n){if(!n)return'?';var w=n.trim().split(/\s+/);return w.length===1?w[0].slice(0,2).toUpperCase():(w[0][0]+w[w.length-1][0]).toUpperCase();}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+var CM={
+  'Leverancier nationaal':['tnat','Nationaal'],
+  'Leverancier lokaal':['tlok','Lokaal'],
+  'Global tech leverancier':['tglob','Global tech'],
+  'Strategische business partner':['tstrat','Strategisch'],
+  'Business partner nationaal':['tbiz','Business'],
+  'Business partner lokaal':['tbiz','Business lokaal'],
+  'Cross selling partner nationaal':['tcross','Cross selling'],
+  'Cross selling partner lokaal':['tcross','Cross selling lokaal']
+};
+function buildCard(d,i){
+  var cm=CM[d.cat]||['',''];
+  var con=d.amNaam||d.eindverantw||d.algEmail||'-';
+  return '<div class="card" onclick="openModal('+i+')" style="animation-delay:'+Math.min(i*25,400)+'ms">'
+    +'<div class="ctop"><div class="av '+avc(d.naam)+'">'+ini(d.naam)+'</div>'
+    +'<div class="cmeta"><div class="cname">'+esc(d.naam)+'</div>'
+    +(cm[1]?'<span class="ctag '+cm[0]+'">'+cm[1]+'</span>':'')
+    +'</div></div>'
+    +(d.omschrijving?'<div class="cdesc">'+esc(d.omschrijving)+'</div>':'')
+    +'<div class="cfoot"><div class="chip">'
+    +'<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="4.5" r="2.5" stroke="#6B6760" stroke-width="1.2"/><path d="M1.5 11.5c0-2.761 2.239-5 5-5s5 2.239 5 5" stroke="#6B6760" stroke-width="1.2" stroke-linecap="round"/></svg>'
+    +'<span>'+esc(con)+'</span></div>'
+    +'<div class="arr"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="#6B6760" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
+    +'</div></div>';
+}
+function ir(l,v,lnk){
+  if(!v)return'';
+  var vh=lnk?'<a href="'+esc(v)+'" target="_blank">'+esc(v)+'</a>':esc(v);
+  return'<div class="irow"><span class="ilbl">'+l+'</span><span class="ival">'+vh+'</span></div>';
+}
+function isec(l,b){return'<div class="msec"><div class="mlbl">'+l+'</div>'+b+'</div>';}
+function openModal(i){
+  var d=filteredData[i];if(!d)return;
+  var cm=CM[d.cat]||['',''];
+  document.getElementById('mav').className='mav '+avc(d.naam);
+  document.getElementById('mav').textContent=ini(d.naam);
+  document.getElementById('mtitle').textContent=d.naam;
+  document.getElementById('msub').textContent=[cm[1],d.kantoor&&d.kantoor!=='N.v.t.'?d.kantoor:''].filter(Boolean).join(' - ');
+  var b='';
+  if(d.omschrijving)b+=isec('Omschrijving','<div class="dblock">'+esc(d.omschrijving)+'</div>');
+  if(d.website)b+=isec('Website','<a class="wbtn" href="'+esc(d.website)+'" target="_blank">'+esc(d.website)+'</a>');
+  if(d.amNaam||d.amEmail||d.amTel){
+    b+=isec('Accountmanager',ir('Naam',d.amNaam)+ir('Telefoon',d.amTel)+ir('E-mail',d.amEmail));
+  } else if(d.eindverantw||d.eindEmail||d.eindTel){
+    b+=isec('Contactpersoon',ir('Naam',d.eindverantw)+ir('Telefoon',d.eindTel)+ir('E-mail',d.eindEmail));
+  }
+  if(d.algEmail||d.algTel){
+    b+=isec('Algemeen contact',ir('E-mail',d.algEmail)+ir('Telefoon',d.algTel));
+  }
+  if(d.onboarding)b+=isec('Onboarding','<div class="dblock">'+esc(d.onboarding)+'</div>');
+  if(d.duur||d.opzegtermijn||d.einddatum||d.opzeggen||d.betalingsstructuur){
+    b+=isec('Contract',ir('Duur',d.duur)+ir('Opzegtermijn',d.opzegtermijn)+ir('Einddatum',d.einddatum)+ir('Opzeggen voor',d.opzeggen)+ir('Betalingsstructuur',d.betalingsstructuur));
+  }
+  document.getElementById('mb').innerHTML=b;
+  document.getElementById('ov').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('ov').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+function filterCards(){
+  var q=document.getElementById('sq').value.toLowerCase();
+  var cat=document.getElementById('sc').value;
+  var kant=document.getElementById('sk').value;
+  filteredData=allData.filter(function(d){
+    return(!q||d.naam.toLowerCase().includes(q)||(d.omschrijving||'').toLowerCase().includes(q))
+      &&(!cat||d.cat===cat)
+      &&(!kant||d.kantoor===kant);
+  }).sort(function(a,b){return a.naam.localeCompare(b.naam,'nl');});
+  document.getElementById('rb').textContent=filteredData.length===allData.length
+    ?filteredData.length+' leveranciers'
+    :filteredData.length+' van '+allData.length+' leveranciers';
+  if(!filteredData.length){
+    document.getElementById('gc').innerHTML='<div class="empty"><p>Geen leveranciers gevonden.</p></div>';
+    return;
+  }
+  var g=document.createElement('div');
+  g.className='grid';
+  g.innerHTML=filteredData.map(buildCard).join('');
+  document.getElementById('gc').innerHTML='';
+  document.getElementById('gc').appendChild(g);
+}
+async function loadData(){
+  try{
+    var r=await fetch('/api/leveranciers');
+    if(!r.ok)throw new Error(r.status);
+    allData=await r.json();
+    document.getElementById('tc').textContent=allData.length;
+    filterCards();
+  }catch(e){
+    document.getElementById('gc').innerHTML='<div class="empty"><p>Kon leveranciers niet laden.</p></div>';
+  }
+}
+loadData();
 </script>
 </body>
 </html>
