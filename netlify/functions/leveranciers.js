@@ -7,9 +7,12 @@ exports.handler = async function(event, context) {
     let all = [], offset = 0;
     while (true) {
       const url = `https://api.jotform.com/form/${FORM_ID}/submissions?apiKey=${API_KEY}&limit=100&offset=${offset}&orderby=created_at&direction=ASC`;
-      const res = await fetch(url); const data = await res.json();
+      const res = await fetch(url);
+      const data = await res.json();
       if (!data.content || !data.content.length) break;
-      all = all.concat(data.content.filter(s => s.status === 'ACTIVE'));
+      // Filter gearchiveerde en verwijderde submissions eruit
+      const active = data.content.filter(s => s.status !== 'DELETED' && s.status !== 'ARCHIVED');
+      all = all.concat(active);
       if (data.content.length < 100) break;
       offset += 100;
     }
