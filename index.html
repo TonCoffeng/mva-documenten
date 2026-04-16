@@ -170,7 +170,17 @@ function openModal(i){
   if(d.duur||d.opzegtermijn||d.einddatum||d.opzeggen||d.betalingsstructuur){
     b+=isec('Contract',ir('Duur',d.duur)+ir('Opzegtermijn',d.opzegtermijn)+ir('Einddatum',d.einddatum)+ir('Opzeggen voor',d.opzeggen)+ir('Betalingsstructuur',d.betalingsstructuur));
   }
-  document.getElementById('mb').innerHTML=b+'<div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid #E2DFD8"><a href="mailto:toncoffeng@makelaarsvan.nl?subject='+encodeURIComponent('Correctie leverancier: '+d.naam)+'&body='+encodeURIComponent('Leverancier: '+d.naam+'\n\nWat klopt er niet of wat moet er worden aangepast?\n\n')+'" style="font-size:12.5px;color:#B0ACA2;text-decoration:none;display:inline-flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 3h11v8H1z" stroke="#B0ACA2" stroke-width="1.2" stroke-linejoin="round"/><path d="M1 3l5.5 4.5L12 3" stroke="#B0ACA2" stroke-width="1.2" stroke-linecap="round"/></svg>Fout melden of correctie doorgeven</a></div>';
+  document.getElementById('mb').innerHTML=b+'<div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid #E2DFD8">
+<div id="fb-form-'+d.id+'" style="display:none;margin-top:.5rem">
+<textarea id="fb-txt-'+d.id+'" placeholder="Beschrijf wat er niet klopt..." style="width:100%;height:80px;border:1.5px solid #E2DFD8;border-radius:7px;padding:.5rem .75rem;font-size:13px;font-family:inherit;resize:none;outline:none;margin-bottom:.5rem"></textarea>
+<div style="display:flex;gap:8px">
+<button onclick="sendFb('+JSON.stringify(d.naam)+','+JSON.stringify(d.id)+')" style="padding:6px 14px;background:#1A2B5F;color:#fff;border:none;border-radius:6px;font-size:12.5px;cursor:pointer">Versturen</button>
+<button onclick="document.getElementById('fb-form-'+d.id+'').style.display='none'" style="padding:6px 14px;background:#F0EEE9;color:#6B6760;border:none;border-radius:6px;font-size:12.5px;cursor:pointer">Annuleren</button>
+</div>
+<div id="fb-msg-'+d.id+'" style="font-size:12px;margin-top:.5rem;color:#27500A"></div>
+</div>
+<button onclick="var f=document.getElementById('fb-form-'+d.id+'');f.style.display=f.style.display==='none'?'block':'none'" style="font-size:12.5px;color:#B0ACA2;background:none;border:none;cursor:pointer;padding:0;display:inline-flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 3h11v8H1z" stroke="#B0ACA2" stroke-width="1.2" stroke-linejoin="round"/><path d="M1 3l5.5 4.5L12 3" stroke="#B0ACA2" stroke-width="1.2" stroke-linecap="round"/></svg>Fout melden of correctie doorgeven</button>
+</div>';
   document.getElementById('ov').classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -218,5 +228,32 @@ loadData();
 
 </div>
 
+
+<script>
+async function sendFb(naam, id) {
+  var txt = document.getElementById('fb-txt-'+id).value.trim();
+  var msg = document.getElementById('fb-msg-'+id);
+  if(!txt) { msg.textContent = 'Typ eerst een bericht.'; msg.style.color='#E8500A'; return; }
+  msg.textContent = 'Versturen...'; msg.style.color='#6B6760';
+  try {
+    var r = await fetch('/api/feedback', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({leverancier: naam, bericht: txt})
+    });
+    if(r.ok) {
+      msg.textContent = 'Verstuurd! Ton ontvangt je bericht.';
+      msg.style.color = '#27500A';
+      document.getElementById('fb-txt-'+id).value = '';
+    } else {
+      msg.textContent = 'Fout bij versturen. Probeer opnieuw.';
+      msg.style.color = '#E8500A';
+    }
+  } catch(e) {
+    msg.textContent = 'Fout: ' + e.message;
+    msg.style.color = '#E8500A';
+  }
+}
+</script>
 </body>
 </html>
