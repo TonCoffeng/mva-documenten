@@ -214,37 +214,9 @@ async function loadData(){
 }
 loadData();
 </script>
-<button class="feedback-btn" onclick="document.getElementById('fbmodal').classList.add('open')">&#128172; Feedback</button>
-<div class="feedback-modal" id="fbmodal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="feedback-box">
-    <h3>Feedback of correctie</h3>
-    <p>Staat er iets niet goed in een leveranciersprofiel? Stuur het door naar Ton.</p>
-    <div id="fb-leverancier" style="font-size:12px;color:#B0ACA2;margin-bottom:.5rem"></div>
-    <textarea id="fb-text" placeholder="Beschrijf wat er niet klopt of wat er aangepast moet worden..."></textarea>
-    <div class="feedback-actions">
-      <button class="btn-cancel" onclick="document.getElementById('fbmodal').classList.remove('open')">Annuleren</button>
-      <button class="btn-send" onclick="sendFeedback()">Versturen</button>
-    </div>
-    <div id="fb-result" style="font-size:12px;margin-top:.75rem;color:#27500A"></div>
-  </div>
+
+
 </div>
-<script>
-function sendFeedback(){
-  var txt=document.getElementById('fb-text').value.trim();
-  var lev=document.getElementById('fb-leverancier').textContent;
-  if(!txt){document.getElementById('fb-result').textContent='Vul eerst een bericht in.';return;}
-  var subject='Feedback leveranciers app'+(lev?' - '+lev:'');
-  var body=txt+(lev?'\n\nLeverancier: '+lev:'');
-  window.location.href='mailto:toncoffeng@makelaarsvan.nl?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
-  document.getElementById('fb-result').textContent='E-mail geopend. Verstuur hem vanuit je mailprogramma.';
-  document.getElementById('fb-text').value='';
-}
-function openFeedbackFor(naam){
-  document.getElementById('fb-leverancier').textContent=naam?'Over: '+naam:'';
-  document.getElementById('fb-text').value='';
-  document.getElementById('fb-result').textContent='';
-  document.getElementById('fbmodal').classList.add('open');
-}
-</script>
+
 </body>
 </html>
